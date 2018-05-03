@@ -9,6 +9,7 @@ Create table Kittens (
   name varchar(50) not null,
   surname varchar(50) not null,
   register_date datetime not null default current_timestamp,
+  born_date datetime not null,
   id_image int,
   id_backgroung_image int,
 

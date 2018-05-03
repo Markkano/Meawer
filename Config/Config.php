@@ -7,6 +7,6 @@ define('DB_USER', 'meawer');
 define('DB_PASS', 'kitten');
 define('DB_NAME', 'Meawer');
 
-define('IMG_PATH', ROOT.'/img/');
+define('IMG_PATH', '/Meawer/Upload/Images');
 define('MAX_IMG_SIZE', 5000000);
 ?>

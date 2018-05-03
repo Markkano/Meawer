@@ -2,14 +2,8 @@
 
 class LoginController extends Controller {
 
-  public function __construct() {
-    parent::__construct();
-  }
-
   public function Index() {
-    parent::View("Index","Login");
-    //parent::View("Login");
-    //parent::View();
+    parent::View();
   }
 
   public function Login() {
