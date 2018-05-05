@@ -6,16 +6,16 @@ class Meaw {
   
 	private $idMeaw;      	//int
 	private $kitten;    	//Kitten object
-	private $image;     	//name of the image
+	private $imageName;     //name of the image
 	private $publishDate; 	//datetime
 	private $content;		//varchar(280);
 	private $comments;		//Comment object Array
 	
-	public function __construct($Kitten, $imageName, $publishDate, $content, $comments){
+	public function __construct($Kitten, $publishDate, $content,  $imageName, $comments){
 		$this->kitten = $Kitten;
-		$this->image = $ImageName;
 		$this->publishDate = $publishDate;
 		$this->content = $content;
+		$this->imageName = $imageName;
 		$this->comments = $comments;
 	}
 
@@ -36,10 +36,10 @@ class Meaw {
 	}
 	
 	public function getImageName(){
-		return $this->image;
+		return $this->imageName;
 	}
 	public function setImageName($imageName){
-		$this->image = $imageName;
+		$this->imageName = $imageName;
 	}
 	
 	public function getPublishDate(){

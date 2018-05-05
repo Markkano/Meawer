@@ -15,6 +15,12 @@ class Kitten {
   private $backgroungImage;   // Path to Profile background image (can be null)
 
   /// Constructors
+  public function __construct($idKitten, $username, $name, $surname){
+      $this->idKitten = $idKitten;
+      $this->username = $username;
+      $this->name = $name;
+      $this->surname = $surname;
+  }
 
   /// Methods
 
