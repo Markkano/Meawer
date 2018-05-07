@@ -20,7 +20,7 @@
 
 
 		
-		public function Insert($object){
+		public function insert($object){
 			$stmt = $this->pdo->prepare("insert into ".$this->table."(id_kitten, id_image, publish_date, content)"
 										." VALUES(?,?,?,?)");
 
@@ -33,28 +33,37 @@
 			return $object;
 		}
 
-		public function Delete($object){
+		public function delete($object){
 
 		}
 
-		public function SelectByID($id){
+		public function selectByID($id){
 
 		}
 
-		public function SelectAll(){
-			$stmt = $this->pdo->prepare("select * from ".$this->table." ORDER BY id_kitten, publish_date");
+		public function selectAll(){
+			$stmt = $this->pdo->prepare("select * from ".$this->table);
 
 			$result = $stmt.fetchAll();
 			
 			$meaws = array();
 			$meaw;
+			$comments;
 			$imageName  = "TestImage";
 			$kitten = new Kitten(1,"rodrigosoria","rodrigo","soria");
 
 			foreach ($result as $row) {
-				// TODO : get Kitten and imageName before creting the meaw. because they are ordered by kittenId, we can get the meaws per kitten directly in a for. use $row["id_kitten"] and $row["id_image"] to get the data to put on the meaw.
+				/* TODO : get Kitten and imageName before creting the meaw. They are ordered by id (default of the DBMS) to get every meaw ordered by the time they were created, independent of the timezone of the user who has created it. Use $row["id_kitten"] and $row["id_image"] to get the data to put on the meaw.
+
+				$kitten = $this->kittenDao->selectByID($row["id_kitten"]);
+				$imageName = getImageNameById($row["id_image"]);
+
+				*/
 				$meaw = new Meaw($kitten, $imageName, $row["publish_date"], $row["content"], array());
-				// TODO : get comments by meaw ID and assign them.
+				/*// TODO (test it) : get comments by meaw ID and add them.
+				$comments = $this->commentDao->getByMeawId();
+				$meaw->setComments($comments);
+				*/
 				array_push($meaws, $meaw);
 
 			}
@@ -62,7 +71,7 @@
 			return $meaws;
 		}
 
-		public function Update($object){
+		public function update($object){
 
 		}
 

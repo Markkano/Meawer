@@ -7,13 +7,13 @@ interface IDAO {
   /* Should insert the object, get the ID, assign it to the object
    * and return the object with the ID assigned.
    */
-  public function Insert($object);
+  public function insert($object);
 
-  public function Delete($object);
+  public function delete($object);
   
-  public function SelectByID($id);
+  public function selectByID($id);
   
-  public function SelectAll();
+  public function selectAll();
   
-  public function Update($object);
+  public function update($object);
 } ?>

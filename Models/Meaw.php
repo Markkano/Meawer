@@ -56,8 +56,12 @@ class Meaw {
 		$this->content = $content;
 	}
 
+	public function setComments($comments){
+		$this->comment = $comments;
+	}
+
 	public function getComments(){
-		return $this->comment;
+		return $this->comments;
 	}
 
 	public function addComment($comment){

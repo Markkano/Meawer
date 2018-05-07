@@ -16,12 +16,12 @@
 		}
 
 		public function index(){
-			//use require_once parent::View("Login/index"); para compartir variables
+			//require_once parent::View("Login/index"); para compartir variables
 			//parent::View("Login/index");
 		}
 
 		public function saveMeaw($content, $imageName = ""){
-			$publishDate=date('Y-m-d H:i:s');
+			$publishDate=date('Y-m-d H:i:s']); //Is it the time of the people who enters a page?
 			$meaw = new Meaw($_SESSION["user"], $publishDate, $content, $imageName, array());
 
 			$meaw = $this->MeawDao->insert($meaw);
