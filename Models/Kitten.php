@@ -12,14 +12,19 @@ class Kitten {
   private $bornDate;          // Does not need explanation :v
   private $registerDate;      // Meawer register date
   private $image;             // Path to Profile image (can be null)
-  private $backgroungImage;   // Path to Profile background image (can be null)
+  private $backgroundImage;   // Path to Profile background image (can be null)
 
   /// Constructors
-  public function __construct($idKitten, $username, $name, $surname){
-      $this->idKitten = $idKitten;
-      $this->username = $username;
-      $this->name = $name;
-      $this->surname = $surname;
+  public function __construct($username, $email, $password, $name, $surname, $bornDate, $registerDate, $image = null, $backgroundImage = null) {
+    $this->username = $username;
+    $this->email = $email;
+    $this->password = $password;
+    $this->name = $name;
+    $this->surname = $surname;
+    $this->bornDate = $bornDate;
+    $this->registerDate = $registerDate;
+    $this->image = $image;
+    $this->backgroundImage = $backgroundImage;
   }
 
   /// Methods
