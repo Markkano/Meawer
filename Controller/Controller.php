@@ -16,7 +16,7 @@ abstract class Controller {
       $controller = str_replace("Controller", "", $controller);
       $path = "Views/".$controller."/".$view.".php";
 
-      require_once $path;
+      return $path;
     }
   }
 } ?>
