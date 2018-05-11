@@ -6,6 +6,7 @@
 
 	class PublishMeawController extends Controller{
 
+		private $errorDevMsg;
 		private $MeawDao;
 
 		public function __construct(){
@@ -23,15 +24,22 @@
 			require_once parent::View();
 		}
 
-		public function saveMeaw($content, $imageName = ""){
+		public function saveMeaw($content, $image = ""){
 
 				$publishDate=date('Y-m-d H:i:s'); //Is it the time of the people who enters a page?
-				$meaw = new Meaw($_SESSION["user"], $publishDate, $content, $imageName, array());
 				try {
+					if ($image == ""){
+						 ImageController::UploadImage("meawImage");
+					}
+					$meaw = new Meaw($_SESSION["user"], $publishDate, $content, "", array());
 					$meaw = $this->MeawDao->insert($meaw);
 				} catch (\PDOException $e) {
-					$errorDevMsg = $e->getMessage(); //this should not be visible for the user.
-					echo $errorDevMsg;
+					$this->errorDevMsg = $e->getMessage(); //this should not be visible for the user.
+					$error = "hubo un error con la base de datos.";
+					echo $this->errorDevMsg;
+				} catch(\Exception $e){
+					$this->errorDevMsg = $e;
+					$error = "hubo un error al subir su imagen";
 				}
 	}
 }
