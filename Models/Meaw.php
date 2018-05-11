@@ -1,16 +1,16 @@
 <?php namespace Models;
 
-	
+
 
 class Meaw {
-  
-	private $idMeaw;      	//int
+
+	private $idMeaw;      //int
 	private $kitten;    	//Kitten object
-	private $imageName;     //name of the image
-	private $publishDate; 	//datetime
-	private $content;		//varchar(280);
+	private $imageName;   //name of the image
+	private $publishDate; //datetime
+	private $content;			//varchar(280);
 	private $comments;		//Comment object Array
-	
+
 	public function __construct($Kitten, $publishDate, $content,  $imageName, $comments){
 		$this->kitten = $Kitten;
 		$this->publishDate = $publishDate;
@@ -26,7 +26,7 @@ class Meaw {
 	public function setId($idMeaw){
 		$this->idMeaw = $idMeaw;
 	}
-	
+
 	public function getKitten(){
 		return $this->kitten;
 	}
@@ -34,21 +34,21 @@ class Meaw {
 	public function setKitten($kitten){
 		$this->kitten = $kitten;
 	}
-	
+
 	public function getImageName(){
 		return $this->imageName;
 	}
 	public function setImageName($imageName){
 		$this->imageName = $imageName;
 	}
-	
+
 	public function getPublishDate(){
 		return $this->publishDate;
 	}
 	public function setPublishDate($publishDate){
 		$this->publishDate = $publishDate;
 	}
-	
+
 	public function getContent(){
 		return $this->content;
 	}
@@ -71,5 +71,5 @@ class Meaw {
 	public function deleteComment($comment){
 		//TODO : implementation
 	}
-	
+
 } ?>

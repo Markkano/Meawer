@@ -5,13 +5,12 @@
 
 	class MeawDao extends SingletonDao implements Idao{
 
-		private $table; //Name of the table.
+		private $table = "comments"; //Name of the table.
 		private $pdo;
 
 
 		public function __construct(){
 			$this->pdo = Connection::getInstance();
-			$this->table = "comments";
 
 		}
 
