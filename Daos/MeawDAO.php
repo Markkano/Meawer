@@ -1,6 +1,5 @@
 <?php namespace Daos;
 
-	use Config\Connection as Connection;
 	use \PDOException as PDOException;
 	use \Excepcion as Exception;
 
@@ -64,10 +63,9 @@
 					$meaw->setComments($comments);
 
 					array_push($meaws, $meaw);
-				} catch (\Exception $e) { // it can be various types of exepctions,
-						throw $e;							// but we just throw them to the controller.
 				}
-
+			} catch (\Exception $e) { // it can be various types of exepctions,
+					throw $e;							// but we just throw them to the controller.
 			}
 			return $meaws;
 		}

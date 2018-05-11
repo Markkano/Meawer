@@ -10,6 +10,6 @@
 	    }
 	    return self::$instances[$class];
 	  }
-	  
+
 	}
 ?>

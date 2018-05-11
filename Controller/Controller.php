@@ -2,10 +2,6 @@
 
 abstract class Controller {
 
-  //Message for the user :D
-  $errorUserMsg = "Ups, there are some problems with the yarn ball, "
-                  ."our old cats are working to fix it! ";
-
   public function __construct() {}
 
   protected function View($view = "", $controller = "") {
