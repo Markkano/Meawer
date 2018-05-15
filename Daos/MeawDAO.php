@@ -7,8 +7,6 @@
 
 		private $table = "meaws"; //Name of the table.
 		private $pdo;
-
-		private $kittenDao;
 		private $imageDAO;
 		private $commentDao;
 
@@ -19,6 +17,8 @@
 			$this->imageDAO = ImageDAO::getInstance();
 			$this->commentDao = CommentDao::getInstance();
 		}
+
+
 
 		public function insert($object){
 			try {
@@ -56,6 +56,7 @@
 					$imageName = $this->imageDAO->selectByID($row["id_image"]);
 
 					$meaw = new Meaw($kitten, $imageName, $row["publish_date"], $row["content"], array());
+					// TODO : get comments by meaw ID and add them.
 					$comments = $this->commentDao->getByMeawId();
 					$meaw->setComments($comments);
 
