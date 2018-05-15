@@ -1,36 +1,25 @@
 <?php namespace DAOS;
 
-use Config\Config as Config;
-use PDO;
-use Exception;
+abstract class Connection {
 
-class Connection {
-
-  private static $instance = null;
-  public static function getInstance() {
-    if (is_null(self::$instance)) {
-      self::$instance = new self();
+  private static $pdo = null;
+  public static function PDO() {
+    if (is_null(self::$pdo)) {
+      self::$pdo = new \PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASS);
+      self::$pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
     }
-    return self::$instance;
+    return self::$pdo;
   }
 
-  private $pdo;
-
-  protected function __construct() {
-    $this->pdo = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASS);
-    $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+  public static function Prepare($sql) {
+    return self::PDO()->prepare($sql);
   }
 
-  public function Prepare($sql) {
-    return $this->pdo->prepare($sql);
+  public static function LastInsertId() {
+    return self::PDO()->lastInsertId();
   }
 
-  public function LastInsertId() {
-    return $this->pdo->lastInsertId();
+  public static function ErrorInfo() {
+    return self::PDO()->errorInfo();
   }
-
-  public function ErrorInfo() {
-    return $this->pdo->errorInfo();
-  }
-}
-?>
+} ?>
