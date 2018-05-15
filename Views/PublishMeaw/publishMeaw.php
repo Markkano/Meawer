@@ -34,7 +34,7 @@
 							</div>
 					<?php } ?>
 					<span class="login100-form-title">
-						Welcome to Meawer!!
+						Welcome to Meawer!! Let's meaw with us! :D
 					</span>
 
 					<div class="wrap-input100 validate-input">

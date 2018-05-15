@@ -1,24 +1,17 @@
 <?php namespace Controller;
 use Daos\KittenDAO;
-use Models\Kitten;
 use Daos\MeawDAO;
+use Models\Kitten;
 use Models\Meaw;
 
-  use Daos\MeawDao as MeawDao;
-
 class ViewMeawsController extends Controller {
-  // get all the meaws ordered by creation, independent of the kittens or the timezone of them.
-  private $kittenDAO;
-  private $meawDAO;
 
   public function __construct() {
     parent::__construct();
-    $this->kittenDAO = KittenDAO::getInstance();
-    $this->meawDAO = MeawDAO::getInstance();
 
     if (isset($_SESSION['kitten'])) { // Esta seteada la session
       // Traigo el Kitten
-      $kitten = $this->kittenDAO->SelectByID($_SESSION['kitten']->getIdKitten());
+      $kitten = KittenDAO::SelectByID($_SESSION['kitten']->getIdKitten());
       try {
         // Comprobar la contraseña
         if (strcmp($kitten->getPassword(), $_SESSION['kitten']->getPassword()) != 0 ) {
@@ -36,7 +29,7 @@ class ViewMeawsController extends Controller {
 
   public function viewAllMeaws(){
     try {
-      $meawsList = $this->meawDao->selectAll();
+      $meawsList = MeawDAO::SelectAll();
     } catch (\PDOException $e) {
       $errorDevMsg = $e->getMessage(); //this should not be visible for the user.
       echo $errorDevMsg;
