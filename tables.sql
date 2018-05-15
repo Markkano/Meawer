@@ -11,7 +11,7 @@ Create table Kittens (
   register_date datetime not null default current_timestamp,
   born_date datetime not null,
   image varchar(50),
-  backgroung_image varchar(50),
+  background_image varchar(50),
 
   Primary Key (id_kitten)
 );

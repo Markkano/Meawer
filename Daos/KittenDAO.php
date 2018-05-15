@@ -36,7 +36,7 @@ abstract class KittenDAO implements IDAO {
   public static function SelectByEmail($email) {
     try {
       $stmt = Connection::Prepare("SELECT * FROM ".self::$table." WHERE email = ?  LIMIT 1");
-      if ($stmt->execute(array($username))) {
+      if ($stmt->execute(array($email))) {
         if ($result = $stmt->fetch()) {
           $kitten = new Kitten(
             $result['username'],

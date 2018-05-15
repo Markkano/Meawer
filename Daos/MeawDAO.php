@@ -8,7 +8,7 @@ use Model\Meaw;
 
 abstract class MeawDao implements Idao {
 
-	private static $table = "meaws"; //Name of the table.
+	private static $table = "Meaws"; //Name of the table.
 
 	public static function Insert($object) {
 		try {
@@ -38,7 +38,7 @@ abstract class MeawDao implements Idao {
 						$result['publish_date'],
             $result['content'],
             $result['image'],
-						CommentDAO::SelectAllFromMeaw($result['id_meaw']);
+						CommentDAO::SelectAllFromMeaw($result['id_meaw'])
           );
           $meaw->setId($result['id_meaw']);
           array_push($list, $meaw);
@@ -62,7 +62,7 @@ abstract class MeawDao implements Idao {
 						$result['publish_date'],
             $result['content'],
             $result['image'],
-						CommentDAO::SelectAllFromMeaw($result['id_meaw']);
+						CommentDAO::SelectAllFromMeaw($result['id_meaw'])
           );
           $meaw->setId($result['id_meaw']);
           array_push($list, $meaw);
