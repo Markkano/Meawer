@@ -1,9 +1,6 @@
 <?php namespace Daos;
 
-	use Config\Connection as Connection;
-
-
-	class MeawDao extends SingletonDao implements Idao{
+	class CommentDao extends SingletonDao implements Idao{
 
 		private $table = "comments"; //Name of the table.
 		private $pdo;
@@ -25,3 +22,4 @@
     public function SelectByID($id){}
     public function SelectAll(){}
     public function Update($object){}
+}
