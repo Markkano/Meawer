@@ -1,19 +1,11 @@
 <?php namespace Daos;
 
-<<<<<<< HEAD
-use Daos\MeawDAO;
-use Daos\KittenDAO;
-use Models\Comment;
-
-class CommentDAO extends SingletonDAO implements IDAO {
-=======
 use Daos\Connection as Connection;
 use Daos\MeawDAO as MeawDAO;
 use Daos\KittenDAO as KittenDAO;
 use Models\Comment as Comment;
 
 abstract class CommentDAO implements IDAO {
->>>>>>> 0b81080c2ffa87353ab0bfad724deaa13220de3b
 
   private $pdo;
   private static $table = 'Comments';
