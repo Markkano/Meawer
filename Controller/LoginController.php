@@ -5,19 +5,13 @@ use Models\Kitten;
 // Controla los inicios de Sesion, redirigiendo al muro.
 class LoginController extends Controller {
 
-  private $kittenDAO;
-
   public function __construct() {
     parent::__construct();
     unset($_SESSION['kitten']);
-
-    $this->kittenDAO = KittenDAO::getInstance();
   }
 
   public function Index() {
-    //include_once Views/Login/Index.php
-    //include_once parent::View();
-    include_once ROOT."Views/Login/login.php";
+    include_once parent::View("login");
   }
 
   /* Recibe los datos del formulario, se encarga de validar los datos y redirigir
@@ -29,9 +23,12 @@ class LoginController extends Controller {
       $username = filter_var($username, FILTER_SANITIZE_EMAIL);
       $password = filter_var($password, FILTER_SANITIZE_EMAIL);
 
-      // Traer Kitten usando el username
+      // Traer Kitten usando el username o en su defecto el email
       try {
-        $kitten = $this->kittenDAO->SelectByUsername($username);
+        $kitten = KittenDAO::SelectByUsername($username);
+        if (is_null($kitten)) {
+          $kitten = KittenDAO::SelectByEmail($username);
+        }
 
         if (isset($kitten)) {
           // Validar password
@@ -53,8 +50,8 @@ class LoginController extends Controller {
       $error = "Compruebe los datos ingresados";
     }
 
-    // Vuelve al Login, para que el usuario intente iniciar sesion de nuevo
-    include_once ROOT."Views/Login/login.php";
+    // Vuelve a mostrar el Login, para que el usuario intente iniciar sesion de nuevo
+    include_once parent::View("login");
   }
 
   // Recibe el Kitten validado que iniciara sesion
@@ -62,6 +59,6 @@ class LoginController extends Controller {
     // Setea la variable de sesion.
     $_SESSION['kitten'] = $kitten;
     // Y redirige a la Controladora
-    header('location: '.BASE_URL.'ViewMeaws/Index');
+    header('location: '.BASE_URL.'ViewMeaws/');
   }
 } ?>

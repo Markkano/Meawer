@@ -23,15 +23,15 @@ class ImageController /*extends Controller*/{
       $fileExtension = strtolower(pathinfo(basename($_FILES[$HttpInputName]["name"]),PATHINFO_EXTENSION));
 
       // Check that the file is a valid image
-      if (!(($_FILES["file"]["type"] == "image/jpeg")
-      || ($_FILES["file"]["type"] == "image/jpg")
-      || ($_FILES["file"]["type"] == "image/png"))
+      if (!(($_FILES[$HttpInputName]["type"] == "image/jpeg")
+      || ($_FILES[$HttpInputName]["type"] == "image/jpg")
+      || ($_FILES[$HttpInputName]["type"] == "image/png"))
       || !in_array($fileExtension, $allowedExtensions)) {
         throw new \Exception("Not allowed file type", 1);
       }
 
       // Check file size
-      if ($_FILES["file"]["size"] > MAX_IMG_SIZE) {
+      if ($_FILES[$HttpInputName]["size"] > MAX_IMG_SIZE) {
         throw new \Exception("Image too big", 1);
       }
 
