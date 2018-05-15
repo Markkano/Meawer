@@ -10,8 +10,8 @@ Create table Kittens (
   surname varchar(50) not null,
   register_date datetime not null default current_timestamp,
   born_date datetime not null,
-  id_image int,
-  id_backgroung_image int,
+  image varchar(50),
+  backgroung_image varchar(50),
 
   Primary Key (id_kitten)
 );
@@ -19,7 +19,7 @@ Create table Kittens (
 Create table Meaws (
   id_meaw int not null auto_increment,
   id_kitten int not null,
-  id_image int,
+  image varchar(50),
   publish_date datetime not null default current_timestamp,
   content varchar(280) not null default '',
 
@@ -61,18 +61,7 @@ Create table Purrs_x_Comment (
   Unique (id_kitten, id_comment)
 );
 
-Create table Images (
-  id_image int not null auto_increment,
-  path varchar(50) not null,
-
-  Primary Key (id_image)
-);
-
-Alter table Kittens add Constraint FK_Kitten_Image Foreign Key (id_image) references Images(id_image);
-Alter table Kittens add Constraint FK_Kitten_BackgroundImage Foreign Key (id_backgroung_image) references Images(id_image);
-
 Alter table Meaws add Constraint FK_Meaws_Kitten Foreign Key (id_kitten) references Kittens(id_kitten);
-Alter table Meaws add Constraint FK_Meaws_Image Foreign Key (id_image) references Images(id_image);
 
 Alter table Re_Meaws add Constraint FK_ReMeaws_Kitten Foreign Key (id_kitten) references Kittens(id_kitten);
 Alter table Re_Meaws add Constraint FK_ReMeaws_Meaw Foreign Key (id_meaw) references Meaws(id_meaw);

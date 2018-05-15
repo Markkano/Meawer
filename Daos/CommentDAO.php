@@ -1,31 +1,23 @@
 <?php namespace Daos;
 
-use Daos\MeawDAO;
-use Daos\KittenDAO;
-use Models\Comment;
+use Daos\Connection as Connection;
+use Daos\MeawDAO as MeawDAO;
+use Daos\KittenDAO as KittenDAO;
+use Models\Comment as Comment;
 
-class CommentDAO extends SingletonDAO implements IDAO {
+abstract class CommentDAO implements IDAO {
 
   private $pdo;
-  private $meawDAO;
-  private $kittenDAO;
+  private static $table = 'Comments';
 
-  private $table = 'Comments';
-
-  public function __construct() {
-    $this->pdo = Connection::getInstance();
-    $this->meawDAO = MeawDAO::getInstance();
-    $this->kittenDAO = KittenDAO::getInstance();
-  }
-
-  public function SelectByID($id) {
+  public static function SelectByID($id) {
     try {
-      $stmt = $this->pdo->Prepare("SELECT * FROM ".$this->table." WHERE id_comment = ?  LIMIT 1");
+      $stmt = Connection::Prepare("SELECT * FROM ".self::$table." WHERE id_comment = ?  LIMIT 1");
       if ($stmt->execute(array($id))) {
         if ($result = $stmt->fetch()) {
           $comment = new Comment(
-            $this->meawDAO->SelectByID($result['id_meaw']),
-            $this->kittenDAO->SelectByID($result['id_kitten']),
+            MeawDAO::SelectByID($result['id_meaw']),
+            KittenDAO::SelectByID($result['id_kitten']),
             $result['comment_date'],
             $result['content']
           );
@@ -38,15 +30,15 @@ class CommentDAO extends SingletonDAO implements IDAO {
     }
   }
 
-  public function SelectAll() {
+  public static function SelectAllFromMeaw($id_meaw) {
     try {
       $list = array();
-      $stmt = $this->pdo->Prepare("SELECT * FROM ".$this->table."");
-      if ($stmt->execute()) {
+      $stmt = Connection::Prepare("SELECT * FROM ".self::$table." WHERE id_meaw = ?");
+      if ($stmt->execute(array($id_meaw))) {
         while ($result = $stmt->fetch()) {
           $comment = new Comment(
-            $this->meawDAO->SelectByID($result['id_meaw']),
-            $this->kittenDAO->SelectByID($result['id_kitten']),
+            MeawDAO::SelectByID($result['id_meaw']),
+            KittenDAO::SelectByID($result['id_kitten']),
             $result['comment_date'],
             $result['content']
           );
@@ -60,15 +52,37 @@ class CommentDAO extends SingletonDAO implements IDAO {
     }
   }
 
-  public function Insert($object) {
+  public static function SelectAll() {
+    try {
+      $list = array();
+      $stmt = Connection::Prepare("SELECT * FROM ".self::$table."");
+      if ($stmt->execute()) {
+        while ($result = $stmt->fetch()) {
+          $comment = new Comment(
+            MeawDAO::SelectByID($result['id_meaw']),
+            KittenDAO::SelectByID($result['id_kitten']),
+            $result['comment_date'],
+            $result['content']
+          );
+          $comment->setId($result['id_comment']);
+          array_push($list, $comment);
+        }
+        return $list;
+      }
+    } catch (\PDOException $e) {
+      throw $e;
+    }
+  }
+
+  public static function Insert($object) {
     throw new \Exception("Not supported by our application yet.", 1);
   }
 
-  public function Delete($object) {
+  public static function Delete($object) {
     throw new \Exception("Not supported by our application yet.", 1);
   }
 
-  public function Update($object) {
+  public static function Update($object) {
     throw new \Exception("Not supported by our application yet.", 1);
   }
 } ?>

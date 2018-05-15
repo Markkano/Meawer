@@ -1,75 +1,88 @@
 <?php namespace Daos;
 
-	use \PDOException as PDOException;
-	use \Excepcion as Exception;
+use Daos\Connection as Connection;
+use Daos\KittenDAO as KittenDAO;
+use Daos\ImageDAO as ImageDAO;
+use Daos\CommentDAO as CommentDAO;
+use Model\Meaw;
 
-	class MeawDao extends SingletonDao implements Idao{
+abstract class MeawDao implements Idao {
 
-		private $table = "meaws"; //Name of the table.
-		private $pdo;
-		private $imageDAO;
-		private $commentDao;
+	private static $table = "meaws"; //Name of the table.
 
-		public function __construct(){
-			$this->pdo = Connection::getInstance();
-
-			$this->kittenDao = KittenDao::getInstance();
-			$this->imageDAO = ImageDAO::getInstance();
-			$this->commentDao = CommentDao::getInstance();
-		}
-
-
-
-		public function insert($object){
-			try {
-				$stmt = $this->pdo->prepare("insert into ".$this->table."(id_kitten, id_image, publish_date, content)"
-											." VALUES(?,?,?,?)");
-
-				//TODO : UPLOAD IMAGE AND GET ID, ASSIGN IT TO THE OBJECT, IF IT HAVES. REPLACE THE 0.
-				$params = array($object->getKitten()->getIdKitten(), 0,
-								$object->getPublishDate() ,$object->getContent());
-				$stmt->execute($params);
-				$object->setId($this->pdo->lastInsertId());
-			} catch (PDOException $e) {
-				 throw $e;
-			}
-			return $object;
-		}
-
-		public function delete($object){}
-
-		public function selectByID($id){}
-
-		public function selectAll(){
-			try {
-				$stmt = $this->pdo->prepare("select * from ".$this->table);
-				$result = $stmt.fetchAll();
-
-				$meaws = array();
-				$meaw;
-				$comments;
-				$imageName  = "TestImage";
-				$kitten = new Kitten(1,"rodrigosoria","rodrigo","soria");
-
-				foreach ($result as $row) {
-					$kitten = $this->kittenDao->selectByID($row["id_kitten"]);
-					$imageName = $this->imageDAO->selectByID($row["id_image"]);
-
-					$meaw = new Meaw($kitten, $imageName, $row["publish_date"], $row["content"], array());
-					// TODO : get comments by meaw ID and add them.
-					$comments = $this->commentDao->getByMeawId();
-					$meaw->setComments($comments);
-
-					array_push($meaws, $meaw);
-				}
-			} catch (\Exception $e) { // it can be various types of exepctions,
-					throw $e;							// but we just throw them to the controller.
-			}
-			return $meaws;
-		}
-
-		public function update($object){}
-
+	public static function Insert($object) {
+		try {
+      $stmt = Connection::Prepare("INSERT INTO ".self::$table." (id_kitten, id_meaw, id_image, publish_date) VALUES (?,?,?,?,?)");
+      $stmt->execute(array(
+        $object->getUsername(),
+        $object->getEmail(),
+        $object->getPassword(),
+        $object->getImage()
+      ));
+      $object->setId(Connection::LastInsertId());
+      return $object;
+    } catch (\PDOException $e) {
+      throw $e;
+    }
 	}
 
-?>
+	public static function SelectAll() {
+		try {
+      $list = array();
+      $stmt = Connection::Prepare("SELECT * FROM ".self::$table."");
+      if ($stmt->execute()) {
+        while ($result = $stmt->fetch()) {
+					$kitten = KittenDAO::SelectByID($result['id_kitten']);
+          $meaw = new Meaw(
+						$kitten,
+						$result['publish_date'],
+            $result['content'],
+            $result['image'],
+						CommentDAO::SelectAllFromMeaw($result['id_meaw']);
+          );
+          $meaw->setId($result['id_meaw']);
+          array_push($list, $meaw);
+        }
+        return $list;
+      }
+    } catch (\PDOException $e) {
+      throw $e;
+    }
+	}
+
+	public static function SelectAllFromKitten($id_kitten) {
+		try {
+      $list = array();
+      $stmt = Connection::Prepare("SELECT * FROM ".self::$table." WHERE id_kitten = ?");
+      if ($stmt->execute(array($id_kitten))) {
+        while ($result = $stmt->fetch()) {
+					$kitten = KittenDAO::SelectByID($result['id_kitten']);
+          $meaw = new Meaw(
+						$kitten,
+						$result['publish_date'],
+            $result['content'],
+            $result['image'],
+						CommentDAO::SelectAllFromMeaw($result['id_meaw']);
+          );
+          $meaw->setId($result['id_meaw']);
+          array_push($list, $meaw);
+        }
+        return $list;
+      }
+    } catch (\PDOException $e) {
+      throw $e;
+    }
+	}
+
+	public static function Delete($object) {
+		throw new \Exception("Not supported by our application yet.", 1);
+	}
+
+	public static function SelectByID($id) {
+		throw new \Exception("Not supported by our application yet.", 1);
+	}
+
+	public static function Update($object) {
+		throw new \Exception("Not supported by our application yet.", 1);
+	}
+} ?>

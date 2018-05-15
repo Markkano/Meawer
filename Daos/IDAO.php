@@ -2,18 +2,13 @@
 
 interface IDAO {
 
+  public static function Insert($object);
 
+  public static function Delete($object);
 
-  /* Should insert the object, get the ID, assign it to the object
-   * and return the object with the ID assigned.
-   */
-  public function insert($object);
+  public static function SelectByID($id);
 
-  public function Delete($object);
+  public static function SelectAll();
 
-  public function SelectByID($id);
-
-  public function SelectAll();
-
-  public function Update($object);
+  public static function Update($object);
 } ?>
