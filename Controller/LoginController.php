@@ -16,7 +16,8 @@ class LoginController extends Controller {
 
   public function Index() {
     //include_once Views/Login/Index.php
-    include_once parent::View();
+    //include_once parent::View();
+    include_once ROOT."Views/Login/login.php";
   }
 
   /* Recibe los datos del formulario, se encarga de validar los datos y redirigir
@@ -51,8 +52,9 @@ class LoginController extends Controller {
       // No se recibieron datos del formulario
       $error = "Compruebe los datos ingresados";
     }
+
     // Vuelve al Login, para que el usuario intente iniciar sesion de nuevo
-    $this->Index();
+    include_once ROOT."Views/Login/login.php";
   }
 
   // Recibe el Kitten validado que iniciara sesion
