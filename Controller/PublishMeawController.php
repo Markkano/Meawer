@@ -21,7 +21,8 @@
 
 		public function index(){
 			//require_once parent::View("PublishMeaw", "index"); // para compartir variables
-			require_once parent::View();
+			//require_once parent::View();
+			require_once "Views/PublishMeaw/publishMeaw.php";
 		}
 
 		public function saveMeaw($content, $image = ""){
