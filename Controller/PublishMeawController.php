@@ -1,6 +1,7 @@
 <?php namespace Controller;
 
-use Daos\MeawDao;
+use Daos\KittenDAO;
+use Daos\MeawDAO;
 use Models\Meaw;
 use Models\Kitten;
 
@@ -36,20 +37,28 @@ class PublishMeawController extends Controller{
 	}
 
 	public function Index() {
-		include_once ;
+		// Realmente no se deberia llamar este metodo
+		throw new \Exception("Error Processing Request", 1);
+
 	}
 
 	public function SaveMeaw($content){
-
 		$publishDate = date('Y-m-d H:i:s'); // Date of the Pulish
 		try {
- 			$image = ImageController::UploadImage("meawImage");
-			$meaw = new Meaw($_SESSION["user"], $publishDate, $content, "", array());
+			$image = null;
+			// Subo la imagen del meaw
+			if ($_FILES["meawImage"]["error"] != 4) {
+				$image = ImageController::UploadImage("meawImage");
+      }
+			// Creo el Meaw
+			$meaw = new Meaw($_SESSION["kitten"], $publishDate, $content, $image, array());
+			// Lo inserto en la base de Datos
 			$meaw = MeawDao::Insert($meaw);
 		} catch (\PDOException $e) {
-			$error = "hubo un error con la base de datos.";
+			$error = "Ocurrio un error con la base de datos.";
 		} catch(\Exception $e) {
-			$error = "hubo un error al subir su imagen";
+			$error = "Ocurrio un error al subir su imagen";
 		}
+		header('location: '.BASE_URL.'ViewMeaws/');
 	}
 } ?>

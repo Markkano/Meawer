@@ -39,7 +39,7 @@ class ImageController /*extends Controller*/{
       $newfilename = uniqid('', true).".".$fileExtension;
 
       // Try to upload the image to the IMG_PATH
-      if (move_uploaded_file($_FILES[$HttpInputName]["tmp_name"], IMG_PATH . $newfilename)) {
+      if (move_uploaded_file($_FILES[$HttpInputName]["tmp_name"], IMG_PATH_UPLOAD . $newfilename)) {
         return $newfilename;
       } else {
         throw new \Exception("Error uploading image", 1);

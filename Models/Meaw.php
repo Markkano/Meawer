@@ -36,7 +36,7 @@ class Meaw {
 	}
 
 	public function getImage(){
-		return $this->imageName;
+		return $this->image;
 	}
 	public function setImage($image){
 		$this->image = $image;

@@ -35,11 +35,14 @@ class ViewMeawsController extends Controller {
 
   public function ViewAllMeaws() {
     try {
+      // Traigo la lista de Meaws
       $meawsList = MeawDAO::SelectAll();
+      //Debug($meawsList);
     } catch (\PDOException $e) {
-      $errorDevMsg = $e->getMessage(); //this should not be visible for the user.
-      //echo $errorDevMsg;
+      $error = "Ocurrio un problema al traer la lista de Meaws. Por favor reintente mas tarde";
     }
+    // Llamo a la vista
+    include_once parent::View("Index");
   }
 
   public function Index() {
