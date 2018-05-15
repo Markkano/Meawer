@@ -9,7 +9,7 @@ class LoginController extends Controller {
 
   public function __construct() {
     parent::__construct();
-    unset($_SESSION['user']);
+    unset($_SESSION['kitten']);
 
     $this->kittenDAO = KittenDAO::getInstance();
   }
@@ -58,8 +58,8 @@ class LoginController extends Controller {
   // Recibe el Kitten validado que iniciara sesion
   private function AcceptLogin (Kitten $kitten) {
     // Setea la variable de sesion.
-    $_SESSION['user'] = $kitten;
+    $_SESSION['kitten'] = $kitten;
     // Y redirige a la Controladora
-    header('location: /Meawer/ViewKittenMeaws/Index');
+    header('location: '.BASE_URL.'ViewMeaws/Index');
   }
 } ?>
