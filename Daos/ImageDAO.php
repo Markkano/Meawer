@@ -2,6 +2,12 @@
 
 class ImageDAO extends SingletonDAO implements IDAO {
 
+  private $pdo;
+
+  public function __construct() {
+    $this->pdo = Connection::getInstance();
+  }
+
   public function SelectByID($id) {
     try {
       $stmt = $this->pdo->Prepare("SELECT * FROM Images WHERE id_image = ?  LIMIT 1");

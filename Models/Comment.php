@@ -1,5 +1,8 @@
 <?php namespace Models;
 
+use Models\Meaw;
+use Models\Kitten;
+
 class Comment {
 
   /// Attributes
@@ -10,6 +13,12 @@ class Comment {
   private $content;         // Text of the Comment
 
   /// Constructors
+  public function __construct(Meaw $meaw, Kitten $kitten, $commentDate, $content) {
+    $this->meaw = $meaw;
+    $this->kitten = $kitten;
+    $this->commentDate = $commentDate;
+    $this->content = $content;
+  }
 
   /// Methods
 

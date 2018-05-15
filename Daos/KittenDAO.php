@@ -1,16 +1,16 @@
 <?php namespace Daos;
-
 use Models\Kitten;
 
 class KittenDAO extends SingletonDAO implements IDAO {
 
   private $pdo;
-  private $imageDAO;
+  private $imageDao;
 
   private $table = 'Kittens';
 
   public function __construct() {
     $this->pdo = Connection::getInstance();
+    $this->imageDao = ImageDAO::getInstance();
   }
 
   public function SelectByID($id) {
@@ -24,10 +24,10 @@ class KittenDAO extends SingletonDAO implements IDAO {
             $result['password'],
             $result['name'],
             $result['surname'],
-            $result['bornDate'],
-            $result['registerDate'],
-            $this->imageDAO->SelectByID($result['image']),
-            $this->imageDAO->SelectByID($result['backgroundImage'])
+            $result['born_date'],
+            $result['register_date'],
+            $this->imageDao->SelectByID($result['id_image']),
+            $this->imageDao->SelectByID($result['id_background_image'])
           );
           $kitten->setIdKitten($result['id_kitten']);
           return $kitten;
@@ -75,10 +75,10 @@ class KittenDAO extends SingletonDAO implements IDAO {
             $result['password'],
             $result['name'],
             $result['surname'],
-            $result['bornDate'],
-            $result['registerDate'],
-            $result['image'],
-            $result['backgroundImage']
+            $result['born_date'],
+            $result['register_date'],
+            $result['id_image'],
+            $result['id_background_image']
           );
           $kitten->setIdKitten($result['id_kitten']);
           array_push($list, $kitten);
@@ -90,7 +90,15 @@ class KittenDAO extends SingletonDAO implements IDAO {
     }
   }
 
-  public function Insert($object) {}
-  public function Delete($object) {}
-  public function Update($object) {}
+  public function Insert($object) {
+    throw new \Exception("Not supported by our application yet.", 1);
+  }
+
+  public function Delete($object) {
+    throw new \Exception("Not supported by our application yet.", 1);
+  }
+
+  public function Update($object) {
+    throw new \Exception("Not supported by our application yet.", 1);
+  }
 } ?>
