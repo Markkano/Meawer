@@ -47,9 +47,11 @@ class PublishMeawController extends Controller{
 		try {
 			$image = null;
 			// Subo la imagen del meaw
-			if ($_FILES["meawImage"]["error"] != 4) {
-				$image = ImageController::UploadImage("meawImage");
-      }
+			if(isset($_FILES["meawImage"])){
+				if ($_FILES["meawImage"]["error"] != 4) {
+					$image = ImageController::UploadImage("meawImage");
+      			}
+      		}
 			// Creo el Meaw
 			$meaw = new Meaw($_SESSION["kitten"], $publishDate, $content, $image, array());
 			// Lo inserto en la base de Datos
@@ -59,6 +61,6 @@ class PublishMeawController extends Controller{
 		} catch(\Exception $e) {
 			$error = "Ocurrio un error al subir su imagen";
 		}
-		header('location: '.BASE_URL.'ViewMeaws/');
+		header('location: '.BASE_URL.'ViewMeaws/Index');
 	}
 } ?>

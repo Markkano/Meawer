@@ -28,7 +28,7 @@
 		<div class="container-login100">
 			<div class="wrap-login100">
 				<div class="login100-pic js-tilt" data-tilt>
-					<img src="<?=BASE_URL?>Bundles/images/meawerLogo.png" alt="IMG">
+					<img src="<?=BASE_URL?>Bundles/staticImages/meawerLogo.png" alt="IMG">
 				</div>
 
 				<form action="<?=BASE_URL?>Login/Login"  class="login100-form validate-form" method="POST">

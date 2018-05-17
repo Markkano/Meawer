@@ -19,6 +19,7 @@ function Debug($var) {
 
 $request = Request::getInstance();
 
+
 echo "<br/>";
 echo "<b>Controladora:</b>".$request->getController()."<br>";
 echo "<b>Metodo:</b>".$request->getMethod()."<br>";

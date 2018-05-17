@@ -42,7 +42,7 @@ class ViewMeawsController extends Controller {
       $error = "Ocurrio un problema al traer la lista de Meaws. Por favor reintente mas tarde";
     }
     // Llamo a la vista
-    include_once parent::View("Index");
+    include_once parent::View("viewMeaws");
   }
 
   public function Index() {
