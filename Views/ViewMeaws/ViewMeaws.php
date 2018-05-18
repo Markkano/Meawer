@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Welcome to meawer</title>
+    <title>CatWall | Meawer</title>
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" type="text/css" href="<?=BASE_URL?>Bundles/vendor/bootstrap/css/bootstrap.min.css">
@@ -58,10 +58,11 @@
 
         <!-- Blog Entries Column -->
         <div class="col-md-8">
-
-          <h3 class="my-4">CatWall <img style="width: 40px;height: 40px;" src="<?=BASE_URL?>Bundles/staticImages/kitten.ico">
+          <div class="card my-4">
+          <h3 class="card-header">CatWall <img style="width: 40px;height: 40px;" src="<?=BASE_URL?>Bundles/staticImages/kitten.ico">
           </h3>
-          <?php if(isset($meawsList)){ 
+
+          <?php if(isset($meawsList)){
                 foreach ($meawsList as $key) {
             # code...
           ?>
@@ -81,7 +82,7 @@
           </div>
 
           <?php }}?>
-         
+</div>
 
           <!-- Pagination -->
           <ul class="pagination justify-content-center mb-4">
@@ -111,7 +112,7 @@
             </div>
           </div>
 
-          
+
 
           <!-- Side Widget -->
           <div class="card my-4">
@@ -120,15 +121,15 @@
               <form action="<?=BASE_URL?>PublishMeaw/SaveMeaw" method="POST" enctype="multipart/form-data">
                 <div class="card-body">
                   <div class="input-group">
-                    <textarea class="input100" type="textarea" name="message" placeholder="Meawww!!" required></textarea> 
+                    <textarea class="input100" type="textarea" name="message" placeholder="Meawww!!" required></textarea>
                      <input  type="submit"  class="btn btn-primary" name="submitWhisper" placeholder="Meaw">
                </div>
              </div>
               <label class="btn btn-default btn-file">
                         Image's Whisper... <input type="file" style="display: none;" name="meawImage">
               </label>
-                
-            </form>              
+
+            </form>
             </div>
           </div>
 
