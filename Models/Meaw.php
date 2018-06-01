@@ -4,19 +4,21 @@
 
 class Meaw {
 
-	private $idMeaw;      //int
-	private $kitten;    	//Kitten object
-	private $image;   //name of the image
-	private $publishDate; //datetime
-	private $content;			//varchar(280);
-	private $comments;		//Comment object Array
+	private $idMeaw;      		// int
+	private $kitten;    			// Kitten object
+	private $image;   				// Name of the image
+	private $publishDate; 		// Datetime
+	private $content;					// Varchar(280);
+	private $comments;				// Comment object Array
+	private $purrs = array(); // Array with kittens
 
-	public function __construct($Kitten, $publishDate, $content,  $image, $comments){
+	public function __construct($Kitten, $publishDate, $content,  $image, $comments, $purrs){
 		$this->kitten = $Kitten;
 		$this->publishDate = $publishDate;
 		$this->content = $content;
 		$this->image = $image;
 		$this->comments = $comments;
+		$this->purrs = $purrs;
 	}
 
 	public function getId(){
@@ -38,6 +40,7 @@ class Meaw {
 	public function getImage(){
 		return $this->image;
 	}
+
 	public function setImage($image){
 		$this->image = $image;
 	}
@@ -45,6 +48,7 @@ class Meaw {
 	public function getPublishDate(){
 		return $this->publishDate;
 	}
+
 	public function setPublishDate($publishDate){
 		$this->publishDate = $publishDate;
 	}
@@ -52,6 +56,7 @@ class Meaw {
 	public function getContent(){
 		return $this->content;
 	}
+
 	public function setContent($content){
 		$this->content = $content;
 	}
@@ -70,5 +75,13 @@ class Meaw {
 
 	public function deleteComment($comment){
 		//TODO : implementation
+	}
+
+	public function getPurrs() {
+		return $this->purrs;
+	}
+
+	public function setPurrs($purrs) {
+		$this->purrs = $purrs;
 	}
 } ?>

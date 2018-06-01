@@ -4,6 +4,7 @@ use Daos\Connection as Connection;
 use Daos\KittenDAO as KittenDAO;
 use Daos\ImageDAO as ImageDAO;
 use Daos\CommentDAO as CommentDAO;
+use Daos\PurrDAO as PurrDAO;
 use Models\Meaw;
 
 abstract class MeawDao implements Idao {
@@ -38,7 +39,8 @@ abstract class MeawDao implements Idao {
 						$result['publish_date'],
             $result['content'],
             $result['image'],
-						CommentDAO::SelectAllFromMeaw($result['id_meaw'])
+						CommentDAO::SelectAllFromMeaw($result['id_meaw']),
+						PurrDAO::SelectAllFromMeaw($result['id_meaw'])
           );
           $meaw->setId($result['id_meaw']);
           array_push($list, $meaw);
@@ -62,7 +64,8 @@ abstract class MeawDao implements Idao {
 						$result['publish_date'],
             $result['content'],
             $result['image'],
-						CommentDAO::SelectAllFromMeaw($result['id_meaw'])
+						CommentDAO::SelectAllFromMeaw($result['id_meaw']),
+						PurrDAO::SelectAllFromMeaw($result['id_meaw'])
           );
           $meaw->setId($result['id_meaw']);
           array_push($list, $meaw);
