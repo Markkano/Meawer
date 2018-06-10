@@ -8,6 +8,8 @@ use Models\Kitten;
 
 class PurrController extends Controller{
 
+	private $errorDevMsg;
+
 	public function __construct(){
 		parent::__construct();
 		parent::CheckSession();

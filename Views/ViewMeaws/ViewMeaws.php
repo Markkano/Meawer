@@ -66,6 +66,7 @@
           <?php if(isset($meawsList)){
                 foreach ($meawsList as $key) {
             # code... 
+
                   if($key instanceof Models\Meaw){
           ?>
           <!-- Blog Post -->
@@ -74,16 +75,19 @@
                   <img class="card-img-top" src=<?=IMG_PATH.$key->getImage();?> alt="">
                 <?php } ?>
                 <div class="card-body">
-                  <h4 class="card-title"><?=$key->getKitten()->getUsername();?></h4>
-                  <p class="card-text"> <?=$key->getContent();?> </p>
-                  <a href="#" class="btn btn-primary">Re-Meaw</a>
-
+                  <form action="<?=BASE_URL?>ReMeaw/ReMeaw" method="POST">
+                    <h4 class="card-title"><?=$key->getKitten()->getUsername();?></h4>
+                    <p class="card-text"> <?=$key->getContent();?> </p>
+                    <input type="hidden"  value="<?=$key->getId()?>" name="meaw">
+                    <input type="submit" name="" value="Re-Meaw" class="btn btn-primary"></a>
                   
-                  <label for="chk<?=$key->getId()?>">
-                      <img  class="purr"  src="../Bundles/staticImages/pawprint.png" onclick="check('chk<?=$key->getId()?>','../Bundles/staticImages/pawprint.png'  ,'../Bundles/staticImages/pawprintblue.png','lupa<?=$key->getId()?>');"
-                          width="50" height="50" id="lupa<?=$key->getId()?>" alt="" name="lupa" />
-                      <span id="count<?=$key->getId()?>"><?=sizeof($key->getPurrs())?></span>
-                  </label>
+                    <label for="chk<?=$key->getId()?>">
+                        <img  class="purr"  src="../Bundles/staticImages/pawprint.png" onclick="check('chk<?=$key->getId()?>','../Bundles/staticImages/pawprint.png'  ,'../Bundles/staticImages/pawprintblue.png','lupa<?=$key->getId()?>');"
+                            width="50" height="50" id="lupa<?=$key->getId()?>" alt="" name="lupa" />
+                        <span id="count<?=$key->getId()?>"><?=sizeof($key->getPurrs())?></span>
+                    </label>
+                  </form>
+                  
                    
                   <form action="#">
                     <input style="opacity: 0;" type="checkbox" id="chk<?=$key->getId()?>" value="Purr" 
@@ -112,53 +116,39 @@
                 </div>
               </div>
 
-          <?php }else{ ?>
+          <?php }else{ 
+            ?>
 
               <!-- Meaw of Re-meaw -->
-
               <div class="card mb-4">
-                <?php if($key->getImage() != null){  ?>
-                  <img class="card-img-top" src=<?=IMG_PATH.$key->getImage();?> alt="">
-                <?php } ?>
-                <div class="card-body">
-                  <h5 class="card-title"><?=$key->getKitten()->getUsername();?></h5>
-                  <p class="card-text"> <?=$key->getContent();?> </p>
-                  <hr><br />
-                  <h6 align="right">Comments...
-                    <a href="#" class="btn btn-primary" style="line-height: 5px; height: 25px; width: 60px">Add</a>
-                  </h6>
-                  <?php if($key->getComments() != null){  
-                    foreach($key->getComments() as $comment) {?>
-                        <h7 class="card-title"><?=$comment->getKitten()->getUsername();?></h7>
-                        <p class="card-text"> 
-                          <?=$comment->getContent();?>
-                          </br>
-                          <?=$comment->getCommentDate();?> 
-                        </p>
-                  <?php }} ?>  
+                <h5 class="card-title"><?=$key->getKitten()->getUsername();?></h5>
+                <div style="border: 4px" class="card-body">  
+                  <div class="card mb-4">
+                    <?php if($key->getMeaw()->getImage() != null){  ?>
+                      <img class="card-img-top" src=<?=IMG_PATH.$key->getMeaw()->getImage();?> alt="">
+                    <?php } ?>
+                    <div class="card-body">
+                      <h6 class="card-title"><?=$key->getMeaw()->getKitten()->getUsername();?></h6>
+                      <p class="card-text"> <?=$key->getMeaw()->getContent();?> </p>
+                      <hr><br />
+                      <p align="right"><?="it was published: ".$key->getMeaw()->getPublishDate()?></p>
+                    </div>
+                  </div>
                 </div>
+                  <?php if (in_array($_SESSION['kitten'], $key->getMeaw()->getPurrs())) { ?> 
+                         <p>Purrs <?=sizeof($key->getMeaw()->getPurrs())?></p>
+                      <?php } ?>         
+
                 <div class="card-footer text-muted">
-                  <?=$key->getPublishDate();?>
+                  <?=$key->getReMeawDate();?>     
                 </div>
+
               </div>
 
-                  <label for="chk<?=$key->getId()?>">
-                      <img  class="purr"  src="../Bundles/staticImages/pawprint.png" onclick="check('chk<?=$key->getId()?>','../Bundles/staticImages/pawprint.png'  ,'../Bundles/staticImages/pawprintblue.png','lupa<?=$key->getId()?>');"
-                          width="50" height="50" id="lupa<?=$key->getId()?>" alt="" name="lupa" />
-                      <span id="count<?=$key->getId()?>"><?=sizeof($key->getPurrs())?></span>
-                  </label>
-                   
-                  <form action="#">
-                    <input style="opacity: 0;" type="checkbox" id="chk<?=$key->getId()?>" value="Purr" 
-                                                      onchange="PurrRequest('<?=$key->getId()?>');"
-                      <?php if (in_array($_SESSION['kitten'], $key->getPurrs())) { ?> 
-                          checked="true" 
-                      <?php } ?> value="si" 
-                    >
-                  </form>              
+                    
               
         <?php // end 
-         }}}?>
+         }}} ?>
 
        </div>
 

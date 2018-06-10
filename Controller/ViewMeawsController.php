@@ -2,6 +2,7 @@
 use Daos\KittenDAO;
 use Daos\MeawDAO;
 use Models\Kitten;
+use Models\ReMeaw;
 use Models\Meaw;
 
 class ViewMeawsController extends Controller {
@@ -15,13 +16,12 @@ class ViewMeawsController extends Controller {
     try {
       // Traigo la lista de Meaws
       //$meawsList = MeawDAO::SelectAll();
-      $meawList = MeawDAO::SelectAllWithReMeaw();
-      //Debug($meawsList);
+      if(!is_null(MeawDAO::SelectAllWithReMeaw())){ 
+        $meawsList = MeawDAO::SelectAllWithReMeaw(); 
+      }
     } catch (\PDOException $e) {
-      Debug($e);
       $error = "Ocurrio un problema al traer la lista de Meaws. Por favor reintente mas tarde";
     }
-    //Debug($meawsList);
     // Llamo a la vista
     include_once parent::View("ViewMeaws");
   }

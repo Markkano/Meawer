@@ -16,6 +16,7 @@ abstract class CommentDAO implements IDAO {
       if ($stmt->execute(array($id))) {
         if ($result = $stmt->fetch()) {
           $comment = new Comment(
+            MeawDAO::SelectByID($result['id_meaw']),
             KittenDAO::SelectByID($result['id_kitten']),
             $result['comment_date'],
             $result['content']
@@ -36,6 +37,7 @@ abstract class CommentDAO implements IDAO {
       if ($stmt->execute(array($id_meaw))) {
         while ($result = $stmt->fetch()) {
           $comment = new Comment(
+            MeawDAO::SelectByID($result['id_meaw']),
             KittenDAO::SelectByID($result['id_kitten']),
             $result['comment_date'],
             $result['content']
@@ -57,6 +59,7 @@ abstract class CommentDAO implements IDAO {
       if ($stmt->execute()) {
         while ($result = $stmt->fetch()) {
           $comment = new Comment(
+            MeawDAO::SelectByID($result['id_meaw']),
             KittenDAO::SelectByID($result['id_kitten']),
             $result['comment_date'],
             $result['content']
@@ -71,21 +74,8 @@ abstract class CommentDAO implements IDAO {
     }
   }
 
-  public static function InsertComment($meawId, $kittenId, $comment) {
-    try {
-      $stmt = Connection::Prepare("INSERT INTO ".self::$table." (id_kitten, id_meaw, content) VALUES (?,?,?)");
-      $stmt->execute(array(
-        $kittenId,
-        $meawId,
-        $comment
-      ));
-    } catch (\PDOException $e) {
-      throw $e;
-    }
-  }
-
   public static function Insert($object) {
-    throw new \Exception("Not supported by our application.", 1);
+    throw new \Exception("Not supported by our application yet.", 1);
   }
 
   public static function Delete($object) {

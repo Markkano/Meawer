@@ -6,6 +6,8 @@ use Daos\ImageDAO as ImageDAO;
 use Daos\CommentDAO as CommentDAO;
 use Daos\PurrDAO as PurrDAO;
 use Models\Meaw;
+use Models\Kitten;
+use Models\ReMeaw;
 
 abstract class MeawDao implements Idao {
 
@@ -30,7 +32,7 @@ abstract class MeawDao implements Idao {
 	public static function SelectAll() {
 		try {
       $list = array();
-      $stmt = Connection::Prepare("SELECT * FROM ".self::$table." ORDER BY publish_date DESC LIMIT 10");
+      $stmt = Connection::Prepare("SELECT * FROM ".self::$table." ORDER BY publish_date DESC");
       if ($stmt->execute()) {
         while ($result = $stmt->fetch()) {
 					$kitten = KittenDAO::SelectByID($result['id_kitten']);
@@ -88,7 +90,7 @@ abstract class MeawDao implements Idao {
             $reMeaw = new ReMeaw($meaw, $reMeawer, $result['publish_date']);
           }
 
-          if(isset($reMeawer) && !is_null($reMeawer)){
+          if(!is_null($reMeaw)){
             array_push($list, $reMeaw);  
           }else{
             array_push($list, $meaw);
@@ -132,28 +134,7 @@ abstract class MeawDao implements Idao {
 	}
 
 	public static function SelectByID($id) {
-		try {
-      $list = array();
-      $stmt = Connection::Prepare("SELECT * FROM ".self::$table." WHERE id_meaw = ?");
-      if ($stmt->execute(array($id))) {
-        while ($result = $stmt->fetch()) {
-					$kitten = KittenDAO::SelectByID($result['id_kitten']);
-          $meaw = new Meaw(
-						$kitten,
-						$result['publish_date'],
-            $result['content'],
-            $result['image'],
-						CommentDAO::SelectAllFromMeaw($result['id_meaw']),
-						PurrDAO::SelectAllFromMeaw($result['id_meaw'])
-          );
-          $meaw->setId($result['id_meaw']);
-          array_push($list, $meaw);
-        }
-        return $list;
-      }
-    } catch (\PDOException $e) {
-      throw $e;
-    }
+		throw new \Exception("Not supported by our application yet.", 1);
 	}
 
 	public static function Update($object) {
