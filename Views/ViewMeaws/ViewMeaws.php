@@ -25,6 +25,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style=" background-color:#3f888f">
       <div class="container">
         <a class="navbar-brand" style=" color: black" href="#"><h2>Meawer</h2></a>
+        <img style="width: 60px;height: 40px;" src="<?=BASE_URL?>Bundles/staticImages/catkiss.gif">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -64,25 +65,102 @@
 
           <?php if(isset($meawsList)){
                 foreach ($meawsList as $key) {
-            # code...
+            # code... 
+                  if($key instanceof Models\Meaw){
           ?>
           <!-- Blog Post -->
-          <div class="card mb-4">
-            <?php if($key->getImage() != null){  ?>
-              <img class="card-img-top" src=<?=IMG_PATH.$key->getImage();?> alt="Card image cap">
-            <?php } ?>
-            <div class="card-body">
-              <h4 class="card-title"><?=$key->getKitten()->getUsername();?></h4>
-              <p class="card-text"> <?=$key->getContent();?> </p>
-              <a href="#" class="btn btn-primary">Re-Meaw</a>
-            </div>
-            <div class="card-footer text-muted">
-              <?=$key->getPublishDate();?>
-            </div>
-          </div>
+              <div class="card mb-4">
+                <?php if($key->getImage() != null){  ?>
+                  <img class="card-img-top" src=<?=IMG_PATH.$key->getImage();?> alt="">
+                <?php } ?>
+                <div class="card-body">
+                  <h4 class="card-title"><?=$key->getKitten()->getUsername();?></h4>
+                  <p class="card-text"> <?=$key->getContent();?> </p>
+                  <a href="#" class="btn btn-primary">Re-Meaw</a>
 
-          <?php }}?>
-</div>
+                  
+                  <label for="chk<?=$key->getId()?>">
+                      <img  class="purr"  src="../Bundles/staticImages/pawprint.png" onclick="check('chk<?=$key->getId()?>','../Bundles/staticImages/pawprint.png'  ,'../Bundles/staticImages/pawprintblue.png','lupa<?=$key->getId()?>');"
+                          width="50" height="50" id="lupa<?=$key->getId()?>" alt="" name="lupa" />
+                      <span id="count<?=$key->getId()?>"><?=sizeof($key->getPurrs())?></span>
+                  </label>
+                   
+                  <form action="#">
+                    <input style="opacity: 0;" type="checkbox" id="chk<?=$key->getId()?>" value="Purr" 
+                                                      onchange="PurrRequest('<?=$key->getId()?>');"
+                      <?php if (in_array($_SESSION['kitten'], $key->getPurrs())) { ?> 
+                          checked="true" 
+                      <?php } ?> value="si" 
+                    >
+                  </form>              
+                  <hr><br />
+                  <h6 align="right">Comments...
+                    <a href="#" class="btn btn-primary" style="line-height: 5px; height: 25px; width: 60px">Add</a>
+                  </h6>
+                  <?php if($key->getComments() != null){  
+                    foreach($key->getComments() as $comment) {?>
+                        <h7 class="card-title"><?=$comment->getKitten()->getUsername();?></h7>
+                        <p class="card-text"> 
+                          <?=$comment->getContent();?>
+                          </br>
+                          <?=$comment->getCommentDate();?> 
+                        </p>
+                  <?php }} ?>  
+                </div>
+                <div class="card-footer text-muted">
+                  <?=$key->getPublishDate();?>
+                </div>
+              </div>
+
+          <?php }else{ ?>
+
+              <!-- Meaw of Re-meaw -->
+
+              <div class="card mb-4">
+                <?php if($key->getImage() != null){  ?>
+                  <img class="card-img-top" src=<?=IMG_PATH.$key->getImage();?> alt="">
+                <?php } ?>
+                <div class="card-body">
+                  <h5 class="card-title"><?=$key->getKitten()->getUsername();?></h5>
+                  <p class="card-text"> <?=$key->getContent();?> </p>
+                  <hr><br />
+                  <h6 align="right">Comments...
+                    <a href="#" class="btn btn-primary" style="line-height: 5px; height: 25px; width: 60px">Add</a>
+                  </h6>
+                  <?php if($key->getComments() != null){  
+                    foreach($key->getComments() as $comment) {?>
+                        <h7 class="card-title"><?=$comment->getKitten()->getUsername();?></h7>
+                        <p class="card-text"> 
+                          <?=$comment->getContent();?>
+                          </br>
+                          <?=$comment->getCommentDate();?> 
+                        </p>
+                  <?php }} ?>  
+                </div>
+                <div class="card-footer text-muted">
+                  <?=$key->getPublishDate();?>
+                </div>
+              </div>
+
+                  <label for="chk<?=$key->getId()?>">
+                      <img  class="purr"  src="../Bundles/staticImages/pawprint.png" onclick="check('chk<?=$key->getId()?>','../Bundles/staticImages/pawprint.png'  ,'../Bundles/staticImages/pawprintblue.png','lupa<?=$key->getId()?>');"
+                          width="50" height="50" id="lupa<?=$key->getId()?>" alt="" name="lupa" />
+                      <span id="count<?=$key->getId()?>"><?=sizeof($key->getPurrs())?></span>
+                  </label>
+                   
+                  <form action="#">
+                    <input style="opacity: 0;" type="checkbox" id="chk<?=$key->getId()?>" value="Purr" 
+                                                      onchange="PurrRequest('<?=$key->getId()?>');"
+                      <?php if (in_array($_SESSION['kitten'], $key->getPurrs())) { ?> 
+                          checked="true" 
+                      <?php } ?> value="si" 
+                    >
+                  </form>              
+              
+        <?php // end 
+         }}}?>
+
+       </div>
 
           <!-- Pagination -->
           <ul class="pagination justify-content-center mb-4">
@@ -122,7 +200,7 @@
                 <div class="card-body">
                   <div class="input-group">
                     <textarea class="input100" type="textarea" name="message" placeholder="Meawww!!" required></textarea>
-                     <input  type="submit"  class="btn btn-primary" name="submitWhisper" placeholder="Meaw">
+                     <input  type="submit"  class="btn btn-primary" name="submitWhisper" placeholder="Meaw" >
                </div>
              </div>
               <label class="btn btn-default btn-file">
@@ -152,7 +230,53 @@
     <!-- Bootstrap core JavaScript -->
     <script src="<?=BASE_URL?>Bundles/vendor/jquery/jquery.min.js"></script>
     <script src="<?=BASE_URL?>Bundles/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+       <script type="text/javascript">
+      function PurrRequest(meawId) {
+        // Checkbox
+        var aux = document.getElementById('chk' + meawId);
+        // Inabilito el Checkbox mientras dure la transaccion
+        aux.disabled = true;
+        // Envio un Request al servidor indicandole el id del Meaw
+        // y un booleano que indica si es Purr o DisPurr
+        Request('<?= BASE_URL ?>Purr/PurrMeaw', 'POST', 'meawId='+meawId+'&bool='+aux.checked, function(response) {
+          // Analizo la respuesta
+          Purr(response);
+        });
+      }
 
+      function Purr(response) {
+        // Recibo el Response del servidor y lo parseo
+        var datos = JSON.parse(response);
+        // Checkbox
+        var aux = document.getElementById('chk' + datos.meawId);
+        if (datos.status == 'ok') {
+          // es el contador de Purrs correspondiente al Meaw
+          var counter = parseInt(document.getElementById('count' + datos.meawId).innerHTML);
+          // Incremento si es un purr o decremento si es dispurr
+          if (datos.action == 'purr') { counter++; console.log("++");}
+          else if(datos.action == 'dispurr') { counter--; console.log("--");}
+          document.getElementById('count' + datos.meawId).innerHTML = counter;
+        } else {
+          // Invierto el estado de checked si hubo un problema
+          aux.checked = !aux.checked ;
+        }
+        // Desbloqueo el control
+        aux.disabled = false;
+      }
+    </script>
+    <script type="text/javascript">
+        function check(checkboxid, imag , defecto, imgid) {  
+          var valor = document.getElementById(checkboxid).checked;
+              
+          if (valor == false){
+              document.getElementById(checkboxid).checked = true;  
+              document.getElementById(imgid).src = defecto;  
+          }else{
+            document.getElementById(checkboxid).checked = false;  
+            document.getElementById(imgid).src = imag;   
+          }
+        }  
+    </script>
   </body>
 
 </html>
