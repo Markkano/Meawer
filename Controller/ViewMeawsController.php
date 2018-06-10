@@ -17,8 +17,10 @@ class ViewMeawsController extends Controller {
       $meawsList = MeawDAO::SelectAll();
       //Debug($meawsList);
     } catch (\PDOException $e) {
+      Debug($e);
       $error = "Ocurrio un problema al traer la lista de Meaws. Por favor reintente mas tarde";
     }
+    //Debug($meawsList);
     // Llamo a la vista
     include_once parent::View("ViewMeaws");
   }

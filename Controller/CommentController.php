@@ -2,11 +2,11 @@
 
 use Daos\KittenDAO;
 use Daos\MeawDAO;
-use Daos\PurrDAO;
+use Daos\CommentDAO;
 use Models\Meaw;
 use Models\Kitten;
 
-class PurrController extends Controller{
+class CommentController extends Controller{
 
 	public function __construct(){
 		parent::__construct();
@@ -18,18 +18,13 @@ class PurrController extends Controller{
 		throw new \Exception("Error Processing Request", 1);
 	}
 
-	public function PurrMeaw($meawId, $bool) {
+	public function CommentMeaw($meawId, $comment) {
     $meawId = filter_var($meawId, FILTER_SANITIZE_NUMBER_INT);
-    $bool = filter_var($bool, FILTER_SANITIZE_STRING);
+    $comment = filter_var($comment, FILTER_SANITIZE_STRING);
     try {
       $kittenId = $_SESSION['kitten']->getIdKitten();
-      if (strcmp($bool, 'true') == 0) {
-        PurrDAO::Insert($meawId, $kittenId);
-        echo json_encode(array('meawId' => $meawId, 'action' => 'purr' ,'status' => 'ok'));
-      } elseif(strcmp($bool, 'false') == 0) {
-        PurrDAO::Delete($meawId, $kittenId);
-        echo json_encode(array('meawId' => $meawId, 'action' => 'dispurr' ,'status' => 'ok'));
-      }
+      CommentDAO::InsertComment($meawId, $kittenId, $comment);
+      echo json_encode(array('meawId' => $meawId, 'comment' => $comment ,'status' => 'ok'));
     } catch (\Exception $e) {
       echo json_encode(array('meawId' => $meawId, 'status' => 'error', 'error' => $e->getMessage()));
     }

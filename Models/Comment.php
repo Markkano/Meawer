@@ -7,19 +7,24 @@ class Comment {
 
   /// Attributes
   private $idComment;       // Id
-  private Meaw $meaw;       // Meaw that is being Commented
-  private Kitten $kitten;   // Kitten that is Commenting
+  private $kitten;          // Kitten that is Commenting
   private $commentDate;     // Date of the Comment
   private $content;         // Text of the Comment
 
   /// Constructors
+  public function __construct(Kitten $kitten, $commentDate, $content) {
+    $this->kitten = $kitten;
+    $this->commentDate = $commentDate;
+    $this->content = $content;
+  }
+  /*
   public function __construct(Meaw $meaw, Kitten $kitten, $commentDate, $content) {
     $this->meaw = $meaw;
     $this->kitten = $kitten;
     $this->commentDate = $commentDate;
     $this->content = $content;
   }
-
+  */
   /// Methods
 
   /// Getters and Setters
@@ -29,14 +34,6 @@ class Comment {
 
   public function setId($value) {
     $this->idComment = $value;
-  }
-
-  public function getMeaw() {
-    return $this->meaw;
-  }
-
-  public function setMeaw(Meaw $value) {
-    $this->meaw = $value;
   }
 
   public function getKitten() {

@@ -30,7 +30,7 @@ abstract class MeawDao implements Idao {
 	public static function SelectAll() {
 		try {
       $list = array();
-      $stmt = Connection::Prepare("SELECT * FROM ".self::$table." ORDER BY publish_date DESC");
+      $stmt = Connection::Prepare("SELECT * FROM ".self::$table." ORDER BY publish_date DESC LIMIT 10");
       if ($stmt->execute()) {
         while ($result = $stmt->fetch()) {
 					$kitten = KittenDAO::SelectByID($result['id_kitten']);
@@ -82,7 +82,28 @@ abstract class MeawDao implements Idao {
 	}
 
 	public static function SelectByID($id) {
-		throw new \Exception("Not supported by our application yet.", 1);
+		try {
+      $list = array();
+      $stmt = Connection::Prepare("SELECT * FROM ".self::$table." WHERE id_meaw = ?");
+      if ($stmt->execute(array($id))) {
+        while ($result = $stmt->fetch()) {
+					$kitten = KittenDAO::SelectByID($result['id_kitten']);
+          $meaw = new Meaw(
+						$kitten,
+						$result['publish_date'],
+            $result['content'],
+            $result['image'],
+						CommentDAO::SelectAllFromMeaw($result['id_meaw']),
+						PurrDAO::SelectAllFromMeaw($result['id_meaw'])
+          );
+          $meaw->setId($result['id_meaw']);
+          array_push($list, $meaw);
+        }
+        return $list;
+      }
+    } catch (\PDOException $e) {
+      throw $e;
+    }
 	}
 
 	public static function Update($object) {
