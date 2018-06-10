@@ -52,6 +52,56 @@ abstract class MeawDao implements Idao {
     }
 	}
 
+  /* Returns a list with meaws and remeaws(if exists) ordered by date (meaw date, remeaw date).
+   * meaw_date : the meaw date. For example, to be used on internal remeaws.
+   * publish_date : the meaw and remeaw date to make the order by.
+  */
+  public static function SelectAllWithReMeaw() {
+    try {
+      $list = array();
+      $stmt = Connection::Prepare("SELECT NULL as 'id_re_meawer', meaw.id_kitten as 'id_creator', meaw.content, meaw.id_meaw, meaw.image, 
+                                      meaw.publish_Date as 'publish_date', meaw.publish_date as 'meaw_date'
+                                    FROM meaws meaw
+                                UNION 
+                                  SELECT reMeaw.id_kitten as 'id_re_meawer', reMeawedMeaw.id_kitten as 'id_creator',reMeawedMeaw.content, 
+                                      reMeawedMeaw.id_meaw, reMeawedMeaw.image, reMeaw.re_meaw_date as 'publish_date', 
+                                      reMeawedMeaw.publish_date as 'meaw_date'
+                                    FROM re_meaws reMeaw
+                                    INNER JOIN meaws reMeawedMeaw ON reMeaw.id_meaw = reMeawedMeaw.id_meaw 
+                                  ORDER BY publish_date DESC");
+      if ($stmt->execute()) {
+        while ($result = $stmt->fetch()) {
+          $reMeaw = NULL;
+          $kitten = KittenDAO::SelectByID($result['id_creator']);
+          $meaw = new Meaw(
+            $kitten,
+            $result['meaw_date'],
+            $result['content'],
+            $result['image'],
+            CommentDAO::SelectAllFromMeaw($result['id_meaw']),
+            PurrDAO::SelectAllFromMeaw($result['id_meaw'])
+          );
+          $meaw->setId($result['id_meaw']);
+
+          if(!is_null($result['id_re_meawer'])){
+            $reMeawer = KittenDAO::SelectByID($result['id_re_meawer']);
+            $reMeaw = new ReMeaw($meaw, $reMeawer, $result['publish_date']);
+          }
+
+          if(isset($reMeawer) && !is_null($reMeawer)){
+            array_push($list, $reMeaw);  
+          }else{
+            array_push($list, $meaw);
+          }
+          
+        }
+        return $list;
+      }
+    } catch (\PDOException $e) {
+      throw $e;
+    }
+  }
+
 	public static function SelectAllFromKitten($id_kitten) {
 		try {
       $list = array();

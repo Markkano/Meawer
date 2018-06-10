@@ -14,7 +14,8 @@ class ViewMeawsController extends Controller {
   public function ViewAllMeaws() {
     try {
       // Traigo la lista de Meaws
-      $meawsList = MeawDAO::SelectAll();
+      //$meawsList = MeawDAO::SelectAll();
+      $meawList = MeawDAO::SelectAllWithReMeaw();
       //Debug($meawsList);
     } catch (\PDOException $e) {
       Debug($e);
@@ -30,3 +31,4 @@ class ViewMeawsController extends Controller {
     $this->ViewAllMeaws();
   }
 } ?>
+  

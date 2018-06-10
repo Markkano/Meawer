@@ -31,7 +31,7 @@ class PublishMeawController extends Controller{
       			}
       		}
 			// Creo el Meaw
-			$meaw = new Meaw($_SESSION["kitten"], $publishDate, $content, $image, array());
+			$meaw = new Meaw($_SESSION["kitten"], $publishDate, $content, $image, null, array());
 			// Lo inserto en la base de Datos
 			$meaw = MeawDao::Insert($meaw);
 		} catch (\PDOException $e) {
