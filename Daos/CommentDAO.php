@@ -37,9 +37,8 @@ abstract class CommentDAO implements IDAO {
       if ($stmt->execute(array($id_meaw))) {
         while ($result = $stmt->fetch()) {
           $comment = new Comment(
-            MeawDAO::SelectByID($result['id_meaw']),
             KittenDAO::SelectByID($result['id_kitten']),
-            $result['comment_date'],
+            $result['coment_date'],
             $result['content']
           );
           $comment->setId($result['id_comment']);
@@ -75,7 +74,19 @@ abstract class CommentDAO implements IDAO {
   }
 
   public static function Insert($object) {
-    throw new \Exception("Not supported by our application yet.", 1);
+    try{
+      $stmt = Connection::Prepare("INSERT INTO ".self::$table." (id_meaw, id_kitten, coment_date, content) VALUES (?,?,?,?)");
+       $stmt->execute(array(
+        $object->getMeaw(),
+        $object->getKitten(),
+        $object->getCommentDate(),
+        $object->getContent()
+      ));
+      $object->setId(Connection::LastInsertId());
+      return $object;
+    }catch(\PDOException $e){
+       throw $e;
+    }
   }
 
   public static function Delete($object) {

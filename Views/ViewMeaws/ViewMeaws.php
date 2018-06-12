@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>CatWall | Meawer</title>
 
     <!-- Bootstrap core CSS -->
@@ -99,8 +99,34 @@
                   </form>              
                   <hr><br />
                   <h6 align="right">Comments...
-                    <a href="#" class="btn btn-primary" style="line-height: 5px; height: 25px; width: 60px">Add</a>
+                  <button style="line-height: 5px; height: 25px; width: 60px" class="btn btn-info btn-lg" data-toggle="modal" 
+                          data-target="#myModal<?=$key->getId()?>"  id="cmt<?=$key->getId()?>">Add</button>
                   </h6>
+                    <!-- Modal -->
+                  <div class="modal fade" id="myModal<?=$key->getId()?>" role="dialog">
+                    <div class="modal-dialog">                    
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal">&times;</button>
+                          <h4 class="modal-title">Write your Comment</h4>
+                        </div>
+                        <div class="modal-body">
+                          <form action="<?=BASE_URL?>Comment/CommentMeaw" method="POST">
+                              <input type="hidden"  value="<?=$key->getId()?>" name="meawId">
+                              <p>
+                                <textarea class="input100" align="center" type="text" placeholder="my comment-nyan" name="comment" required></textarea> 
+                              </p>
+                              <p><input align="center" class="btn btn-primary" type="submit" name="" value="comment"></p>
+                          </form>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                      </div>
+                      
+                    </div>
+                  </div>
+
                   <?php if($key->getComments() != null){  
                     foreach($key->getComments() as $comment) {?>
                         <h7 class="card-title"><?=$comment->getKitten()->getUsername();?></h7>
@@ -266,6 +292,26 @@
             document.getElementById(imgid).src = imag;   
           }
         }  
+    </script>
+    <script type="text/javascript">
+      var span = document.getElementsByClassName("close")[0];
+
+      function modal(modalDisplay){
+          modal = getElementById(modalDisplay);
+          modal.style.display = "block";
+
+      }
+
+      function modalOnClick(span){
+          modalDisplayOff = document.getElementById(span);
+          modalDisplayOff.style.display = "none";
+      }
+
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
     </script>
   </body>
 

@@ -134,7 +134,22 @@ abstract class MeawDao implements Idao {
 	}
 
 	public static function SelectByID($id) {
-		throw new \Exception("Not supported by our application yet.", 1);
+		 $stmt = Connection::Prepare("SELECT * FROM ".self::$table." WHERE id_meaw = ?");
+     if ($stmt->execute(array($id))) {
+        if($result = $stmt->fetch()){
+            $kitten = KittenDAO::SelectByID($result['id_kitten']);
+            $meaw = new Meaw(
+            $kitten,
+            $result['publish_date'],
+            $result['content'],
+            $result['image'],
+            CommentDAO::SelectAllFromMeaw($result['id_meaw']),
+            PurrDAO::SelectAllFromMeaw($result['id_meaw'])
+          );
+            $meaw->setId($result['id_meaw']);
+          return $meaw;
+        }
+     }
 	}
 
 	public static function Update($object) {

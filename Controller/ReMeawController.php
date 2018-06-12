@@ -34,10 +34,8 @@ class ReMeawController extends Controller{
 	      }else{
 	      	ReMeawDAO::Update($originalReMeaw);
 	      }
-	    } catch (\Exception $e) {
-	      echo json_encode(array('meawId' => $meawId, 'status' => 'error', 'error' => $e->getTraceAsString()));
-	    }
-	    header('location: '.BASE_URL.'ViewMeaws/Index');
+	    } catch (\Exception $e) {}
+	   	header('location: '.BASE_URL.'ViewMeaws/Index');   
 	}
 
 } ?>

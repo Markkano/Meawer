@@ -106,10 +106,10 @@ public static function SelectAll() {
   public static function Update($object) {
 
     $idKitten = $object->getKitten()->getIdKitten();
-    $idMeaw = $object->getMeaw->getId();
+    $idMeaw = $object->getMeaw()->getId();
     try{
     $stmt = Connection::Prepare("UPDATE ".self::$table. 
-                                  " SET re_meaw_date = ".$object->getDate(). 
+                                  " SET re_meaw_date = ".$object->getReMeawDate(). 
                                 " WHERE id_meaw = ".$idMeaw." AND id_kitten = ".$idKitten);
     } catch(\PDOException $e){
       throw $e;
