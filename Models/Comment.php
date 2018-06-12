@@ -1,13 +1,11 @@
 <?php namespace Models;
 
-use Models\Meaw;
 use Models\Kitten;
 
 class Comment {
 
   /// Attributes
   private $idComment;       // Id
-  private $meaw;       // Meaw that is being Commented
   private $kitten;   // Kitten that is Commenting
   private $commentDate;     // Date of the Comment
   private $content;         // Text of the Comment

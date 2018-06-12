@@ -25,14 +25,11 @@ class CommentController extends Controller{
 	    try {
 	   	  $date = date('Y-m-d H:i:s');
 	      $kittenId = $_SESSION['kitten']->getIdKitten();
-
-
-	      $myComment = new Comment($meawId, $kittenId, $date, $comment);
-	      CommentDAO::Insert($myComment);
+	      $myComment = new Comment($kittenId, $date, $comment);
+	      CommentDAO::InsertComment($myComment, $meawId);
 	      echo json_encode(array('meawId' => $meawId, 'comment' => $comment ,'status' => 'ok'));
 	    } catch (\Exception $e) {
 	      echo json_encode(array('meawId' => $meawId, 'status' => 'error', 'error' => $e->getMessage()));
 	    }
-	 header('location: '.BASE_URL.'ViewMeaws/Index');   
 	}
 } ?>

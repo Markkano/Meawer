@@ -42,7 +42,7 @@ public static function SelectAll() {
 	try {
       $list = array();
       $stmt = Connection::Prepare("SELECT id_kitten, id_meaw, re_meaw_date FROM ".self::$table);
-      
+
       if ($stmt->execute()) {
         while ($result = $stmt->fetch()) {
           $kitten = KittenDAO::SelectByID($result['id_kitten']);
@@ -63,7 +63,7 @@ public static function SelectAll() {
     try {
       $list = array();
       $stmt = Connection::Prepare("SELECT id_kitten, id_meaw, re_meaw_date FROM ".self::$table." WHERE id_meaw = ?");
-      
+
       if ($stmt->execute(array($id_meaw))) {
         while ($result = $stmt->fetch()) {
           $kitten = KittenDAO::SelectByID($result['id_kitten']);
@@ -80,8 +80,6 @@ public static function SelectAll() {
   }
 
   public static function selectByReMeaw($id_meaw, $id_kitten){
-
-      $list = array();
     try{
       $stmt = Connection::Prepare("SELECT id_kitten, id_meaw, re_meaw_date FROM ".self::$table." WHERE id_meaw = ? AND id_kitten = ?");
       $reMeaw = null;
@@ -108,8 +106,8 @@ public static function SelectAll() {
     $idKitten = $object->getKitten()->getIdKitten();
     $idMeaw = $object->getMeaw()->getId();
     try{
-    $stmt = Connection::Prepare("UPDATE ".self::$table. 
-                                  " SET re_meaw_date = ".$object->getReMeawDate(). 
+    $stmt = Connection::Prepare("UPDATE ".self::$table.
+                                  " SET re_meaw_date = ".$object->getReMeawDate().
                                 " WHERE id_meaw = ".$idMeaw." AND id_kitten = ".$idKitten);
     } catch(\PDOException $e){
       throw $e;

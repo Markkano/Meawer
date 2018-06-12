@@ -61,16 +61,16 @@ abstract class MeawDao implements Idao {
   public static function SelectAllWithReMeaw() {
     try {
       $list = array();
-      $stmt = Connection::Prepare("SELECT NULL as 'id_re_meawer', meaw.id_kitten as 'id_creator', meaw.content, meaw.id_meaw, meaw.image, 
+      $stmt = Connection::Prepare("SELECT NULL as 'id_re_meawer', meaw.id_kitten as 'id_creator', meaw.content, meaw.id_meaw, meaw.image,
                                       meaw.publish_Date as 'publish_date', meaw.publish_date as 'meaw_date'
-                                    FROM meaws meaw
-                                UNION 
-                                  SELECT reMeaw.id_kitten as 'id_re_meawer', reMeawedMeaw.id_kitten as 'id_creator',reMeawedMeaw.content, 
-                                      reMeawedMeaw.id_meaw, reMeawedMeaw.image, reMeaw.re_meaw_date as 'publish_date', 
+                                    FROM Meaws meaw
+                                UNION
+                                  SELECT reMeaw.id_kitten as 'id_re_meawer', reMeawedMeaw.id_kitten as 'id_creator',reMeawedMeaw.content,
+                                      reMeawedMeaw.id_meaw, reMeawedMeaw.image, reMeaw.re_meaw_date as 'publish_date',
                                       reMeawedMeaw.publish_date as 'meaw_date'
-                                    FROM re_meaws reMeaw
-                                    INNER JOIN meaws reMeawedMeaw ON reMeaw.id_meaw = reMeawedMeaw.id_meaw 
-                                  ORDER BY publish_date DESC");
+                                    FROM Re_Meaws reMeaw
+                                    INNER JOIN Meaws reMeawedMeaw ON reMeaw.id_meaw = reMeawedMeaw.id_meaw
+                                  ORDER BY publish_date DESC LIMIT 10");
       if ($stmt->execute()) {
         while ($result = $stmt->fetch()) {
           $reMeaw = NULL;
@@ -91,11 +91,10 @@ abstract class MeawDao implements Idao {
           }
 
           if(!is_null($reMeaw)){
-            array_push($list, $reMeaw);  
+            array_push($list, $reMeaw);
           }else{
             array_push($list, $meaw);
           }
-          
         }
         return $list;
       }
