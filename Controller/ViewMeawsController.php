@@ -1,9 +1,9 @@
 <?php namespace Controller;
 use Daos\KittenDAO;
 use Daos\MeawDAO;
-use Models\Kitten;
-use Models\ReMeaw;
-use Models\Meaw;
+use Models\Kitten as Kitten;
+use Models\ReMeaw as ReMeaw;
+use Models\Meaw as Meaw;
 
 class ViewMeawsController extends Controller {
 
@@ -16,8 +16,8 @@ class ViewMeawsController extends Controller {
     try {
       // Traigo la lista de Meaws
       //$meawsList = MeawDAO::SelectAll();
-      if(!is_null(MeawDAO::SelectAllWithReMeaw())){ 
-        $meawsList = MeawDAO::SelectAllWithReMeaw(); 
+      if(!is_null(MeawDAO::SelectAllWithReMeaw())){
+        $meawsList = MeawDAO::SelectAllWithReMeaw();
       }
     } catch (\PDOException $e) {
       $error = "Ocurrio un problema al traer la lista de Meaws. Por favor reintente mas tarde";
@@ -31,4 +31,3 @@ class ViewMeawsController extends Controller {
     $this->ViewAllMeaws();
   }
 } ?>
-  

@@ -1,4 +1,47 @@
-<?php ?>
+<?php function RenderMeaw($meaw) { ?>
+  <!-- Blog Post -->
+  <div class="card mb-4" style="margin: 20px;">
+
+    <?php if($meaw->getImage() != null){  ?>
+      <img class="card-img-top" src=<?=IMG_PATH.$meaw->getImage();?> alt="">
+    <?php } ?>
+    <div class="card-body">
+
+      <form action="<?=BASE_URL?>ReMeaw/ReMeaw" method="POST">
+        <h4 class="card-title"><?=$meaw->getKitten()->getUsername();?></h4>
+        <p class="card-text"> <?=$meaw->getContent();?> </p>
+        <input type="hidden"  value="<?=$meaw->getId()?>" name="meaw">
+        <input type="submit" name="" value="Re-Meaw" class="btn btn-primary"></a>
+      </form>
+      <label for="chk<?=$meaw->getId()?>">
+      <img class="purr" src="<?=BASE_URL?>Bundles/staticImages/pawprint.png" onclick="check('chk<?=$meaw->getId()?>','../Bundles/staticImages/pawprint.png'  ,'../Bundles/staticImages/pawprintblue.png','lupa<?=$meaw->getId()?>');"
+        width="50" height="50" id="lupa<?=$meaw->getId()?>" alt="" name="lupa" />
+      <span id="count<?=$meaw->getId()?>"><?=sizeof($meaw->getPurrs())?></span>
+      </label>
+      <input style="opacity: 0;" type="checkbox" id="chk<?=$meaw->getId()?>"
+                              onchange="PurrRequest('<?=$meaw->getId()?>');"
+      <?php if (in_array($_SESSION['kitten'], $meaw->getPurrs())) { echo 'checked="true"'; } ?>  onload="check('chk<?=$meaw->getId()?>','../Bundles/staticImages/pawprint.png'  ,'../Bundles/staticImages/pawprintblue.png','lupa<?=$meaw->getId()?>');" ></input>
+
+      <hr><br />
+      <div id="comments<?=$meaw->getId()?>">
+        <?php if($meaw->getComments() != null) { foreach($meaw->getComments() as $comment) { ?>
+          <h7 class="card-title"><?=$comment->getKitten()->getUsername();?></h7>
+          <p class="card-text">
+            <?=$comment->getContent();?>
+          </br>
+          <?=$comment->getCommentDate();?>
+        </p>
+      <?php }} ?>
+      </div>
+      <input type="text" id="comment<?=$meaw->getId()?>" value="" placeholder="Comentario" >
+      <input type="button" id="btn<?=$meaw->getId()?>" value="Comentar" onclick="Comment(<?=$meaw->getId()?>)">
+    </div>
+    <div class="card-footer text-muted">
+      <?=$meaw->getPublishDate();?>
+    </div>
+  </div>
+<?php } ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -51,7 +94,19 @@
         </div>
       </div>
     </nav>
-
+    <script type="text/javascript">
+        function check(checkboxid, imag, defecto, imgid) {
+          var valor = document.getElementById(checkboxid).checked;
+          console.log(valor);
+          if (valor == false){
+              document.getElementById(checkboxid).checked = false;
+              document.getElementById(imgid).src = defecto;
+          }else{
+            document.getElementById(checkboxid).checked = true;
+            document.getElementById(imgid).src = imag;
+          }
+        }
+    </script>
     <!-- Page Content -->
     <div class="container">
 
@@ -63,121 +118,27 @@
           <h3 class="card-header">CatWall <img style="width: 40px;height: 40px;" src="<?=BASE_URL?>Bundles/staticImages/kitten.ico">
           </h3>
 
-          <?php if(isset($meawsList)){
-                foreach ($meawsList as $key) {
-            # code... 
-
-                  if($key instanceof Models\Meaw){
-          ?>
-          <!-- Blog Post -->
-              <div class="card mb-4">
-                <?php if($key->getImage() != null){  ?>
-                  <img class="card-img-top" src=<?=IMG_PATH.$key->getImage();?> alt="">
-                <?php } ?>
-                <div class="card-body">
-                  <form action="<?=BASE_URL?>ReMeaw/ReMeaw" method="POST">
-                    <h4 class="card-title"><?=$key->getKitten()->getUsername();?></h4>
-                    <p class="card-text"> <?=$key->getContent();?> </p>
-                    <input type="hidden"  value="<?=$key->getId()?>" name="meaw">
-                    <input type="submit" name="" value="Re-Meaw" class="btn btn-primary"></a>
-                  
-                    <label for="chk<?=$key->getId()?>">
-                        <img  class="purr"  src="../Bundles/staticImages/pawprint.png" onclick="check('chk<?=$key->getId()?>','../Bundles/staticImages/pawprint.png'  ,'../Bundles/staticImages/pawprintblue.png','lupa<?=$key->getId()?>');"
-                            width="50" height="50" id="lupa<?=$key->getId()?>" alt="" name="lupa" />
-                        <span id="count<?=$key->getId()?>"><?=sizeof($key->getPurrs())?></span>
-                    </label>
-                  </form>
-                  
-                   
-                  <form action="#">
-                    <input style="opacity: 0;" type="checkbox" id="chk<?=$key->getId()?>" value="Purr" 
-                                                      onchange="PurrRequest('<?=$key->getId()?>');"
-                      <?php if (in_array($_SESSION['kitten'], $key->getPurrs())) { ?> 
-                          checked="true" 
-                      <?php } ?> value="si" 
-                    >
-                  </form>              
-                  <hr><br />
-                  <h6 align="right">Comments...
-                  <button style="line-height: 5px; height: 25px; width: 60px" class="btn btn-info btn-lg" data-toggle="modal" 
-                          data-target="#myModal<?=$key->getId()?>"  id="cmt<?=$key->getId()?>">Add</button>
-                  </h6>
-                    <!-- Modal -->
-                  <div class="modal fade" id="myModal<?=$key->getId()?>" role="dialog">
-                    <div class="modal-dialog">                    
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <button type="button" class="close" data-dismiss="modal">&times;</button>
-                          <h4 class="modal-title">Write your Comment</h4>
-                        </div>
-                        <div class="modal-body">
-                          <form action="<?=BASE_URL?>Comment/CommentMeaw" method="POST">
-                              <input type="hidden"  value="<?=$key->getId()?>" name="meawId">
-                              <p>
-                                <textarea class="input100" align="center" type="text" placeholder="my comment-nyan" name="comment" required></textarea> 
-                              </p>
-                              <p><input align="center" class="btn btn-primary" type="submit" name="" value="comment"></p>
-                          </form>
-                        </div>
-                        <div class="modal-footer">
-                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        </div>
-                      </div>
-                      
-                    </div>
-                  </div>
-
-                  <?php if($key->getComments() != null){  
-                    foreach($key->getComments() as $comment) {?>
-                        <h7 class="card-title"><?=$comment->getKitten()->getUsername();?></h7>
-                        <p class="card-text"> 
-                          <?=$comment->getContent();?>
-                          </br>
-                          <?=$comment->getCommentDate();?> 
-                        </p>
-                  <?php }} ?>  
-                </div>
-                <div class="card-footer text-muted">
-                  <?=$key->getPublishDate();?>
-                </div>
-              </div>
-
-          <?php }else{ 
-            ?>
-
+          <?php
+          if (isset($meawsList)) {
+            foreach ($meawsList as $key):
+                if ($key instanceof Models\Meaw) { // Its a Meaw
+                  RenderMeaw($key);
+                } elseif ($key instanceof Models\ReMeaw) { // Render ReMeaw ?>
               <!-- Meaw of Re-meaw -->
-              <div class="card mb-4">
-                <h5 class="card-title"><?=$key->getKitten()->getUsername();?></h5>
-                <div style="border: 4px" class="card-body">  
-                  <div class="card mb-4">
-                    <?php if($key->getMeaw()->getImage() != null){  ?>
-                      <img class="card-img-top" src=<?=IMG_PATH.$key->getMeaw()->getImage();?> alt="">
-                    <?php } ?>
-                    <div class="card-body">
-                      <h6 class="card-title"><?=$key->getMeaw()->getKitten()->getUsername();?></h6>
-                      <p class="card-text"> <?=$key->getMeaw()->getContent();?> </p>
-                      <hr><br />
-                      <p align="right"><?="it was published: ".$key->getMeaw()->getPublishDate()?></p>
-                    </div>
-                  </div>
+              <div class="card mb-4"  style="margin: 20px;">
+                <h5 class="card-title" style="margin: 20px;"><b><?=$key->getKitten()->getUsername();?></b> re-meaw this:</h5>
+                <div style="border: 4px" class="card-body">
+                  <?php RenderMeaw($key->getMeaw()); ?>
                 </div>
-                  <?php if (in_array($_SESSION['kitten'], $key->getMeaw()->getPurrs())) { ?> 
-                         <p>Purrs <?=sizeof($key->getMeaw()->getPurrs())?></p>
-                      <?php } ?>         
-
                 <div class="card-footer text-muted">
-                  <?=$key->getReMeawDate();?>     
+                  <?=$key->getReMeawDate();?>
                 </div>
-
               </div>
+            <?php } // else { Render ReMeaw }
+          endforeach; // foreach ($meawsList as $key)
+            } // if (isset($meawsList)) ?>
 
-                    
-              
-        <?php // end 
-         }}} ?>
-
-       </div>
-
+           </div>
           <!-- Pagination -->
           <ul class="pagination justify-content-center mb-4">
             <li class="page-item">
@@ -244,6 +205,7 @@
     </footer>
 
     <!-- Bootstrap core JavaScript -->
+    <script src="<?=BASE_URL?>Bundles/js/script.js"></script>
     <script src="<?=BASE_URL?>Bundles/vendor/jquery/jquery.min.js"></script>
     <script src="<?=BASE_URL?>Bundles/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
        <script type="text/javascript">
@@ -263,6 +225,7 @@
       function Purr(response) {
         // Recibo el Response del servidor y lo parseo
         var datos = JSON.parse(response);
+
         // Checkbox
         var aux = document.getElementById('chk' + datos.meawId);
         if (datos.status == 'ok') {
@@ -279,39 +242,32 @@
         // Desbloqueo el control
         aux.disabled = false;
       }
-    </script>
-    <script type="text/javascript">
-        function check(checkboxid, imag , defecto, imgid) {  
-          var valor = document.getElementById(checkboxid).checked;
-              
-          if (valor == false){
-              document.getElementById(checkboxid).checked = true;  
-              document.getElementById(imgid).src = defecto;  
-          }else{
-            document.getElementById(checkboxid).checked = false;  
-            document.getElementById(imgid).src = imag;   
-          }
-        }  
-    </script>
-    <script type="text/javascript">
-      var span = document.getElementsByClassName("close")[0];
 
-      function modal(modalDisplay){
-          modal = getElementById(modalDisplay);
-          modal.style.display = "block";
+      function Comment(meawId) {
+        var comment = document.getElementById('comment' + meawId).value;
 
+        document.getElementById('comment' + meawId).disabled = true;
+        document.getElementById('btn' + meawId).disabled = true;
+
+        Request('<?= BASE_URL ?>Comment/CommentMeaw', 'POST', 'meawId='+meawId+'&comment='+comment, function(response) {
+          // Analizo la respuesta
+          AddComment(response);
+        });
       }
 
-      function modalOnClick(span){
-          modalDisplayOff = document.getElementById(span);
-          modalDisplayOff.style.display = "none";
-      }
-
-    window.onclick = function(event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
+      function AddComment(response) {
+        var datos = JSON.parse(response);
+        console.log(datos);
+        if (datos.status == 'ok') {
+          var comments = document.getElementById('comments'+datos.meawId);
+          var username = '<?=$_SESSION['kitten']->getUsername()?>'
+          comments.innerHTML += '<h7 class="card-title">'+username+'</h7>'+
+          '<p class="card-text">'+datos.comment+'</br>'+datos.commentDate+'</p>';
         }
-    }
+        document.getElementById('comment' + datos.meawId).disabled = false;
+        document.getElementById('comment' + datos.meawId).value = '';
+        document.getElementById('btn' + datos.meawId).disabled = false;
+      }
     </script>
   </body>
 

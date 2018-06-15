@@ -28,6 +28,45 @@ body {
     background-color: rgb(0,0,0); /* Fallback color */
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
+.textarea{
+  align-self: center;
+  padding: 40px 0 0 0;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  position: relative; 
+}
+.modal-header {
+    background-color: rgb(90, 211, 230);
+    -ms-flex-align: center;
+    align-items: center;
+    display: -ms-flexbox;
+    display: flex;
+    height: 70px;
+    -ms-flex-pack: distribute;
+    justify-content: space-around;
+    position: relative;
+    z-index: 1;
+}
+
+.modal-body{
+    border: 1px solid #d2d2d2;
+    border-bottom: 0 transparent;
+    color: #18181a;
+    font-family: Roboto,sans-serif;
+    font-size: 14px;
+    height: 130px;
+    padding: 25px 25px 40px;
+    outline: none;
+    width: 100%;
+    overflow-y: auto;
+    box-sizing: inherit;
+    background-color: white;
+}
+
+.modal-footer{
+    background-color: white;
+}
 
 /* Modal Content */
 .modal-content {

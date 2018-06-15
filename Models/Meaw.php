@@ -1,7 +1,5 @@
 <?php namespace Models;
 
-
-
 class Meaw {
 
 	private $idMeaw;      		// int
@@ -67,14 +65,6 @@ class Meaw {
 
 	public function getComments(){
 		return $this->comments;
-	}
-
-	public function addComment($comment){
-		//TODO : implementation
-	}
-
-	public function deleteComment($comment){
-		//TODO : implementation
 	}
 
 	public function getPurrs() {

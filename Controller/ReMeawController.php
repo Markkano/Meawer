@@ -24,18 +24,17 @@ class ReMeawController extends Controller{
 	//The id of the meaw to reMeaw. The system defines if the remeaw is already re-meawed or not.
 	//As defined, only one re-meaw at a time. Remeaw another time will update the date.
 	public function ReMeaw($meawId) {
-		$reMeawDate = date('Y-m-d H:i:s');
-	    $meawId = filter_var($meawId, FILTER_SANITIZE_NUMBER_INT);
-	    try {
-	      $kittenId = $_SESSION['kitten']->getIdKitten();
-          $originalReMeaw = ReMeawDAO::SelectByReMeaw($meawId, $kittenId);
-	      if(is_null($originalReMeaw)) {
-	      	ReMeawDAO::Insert($meawId, $kittenId, $reMeawDate);
-	      }else{
-	      	ReMeawDAO::Update($originalReMeaw);
-	      }
-	    } catch (\Exception $e) {}
-	   	header('location: '.BASE_URL.'ViewMeaws/Index');   
+    $meawId = filter_var($meawId, FILTER_SANITIZE_NUMBER_INT);
+    try {
+      	$kittenId = $_SESSION['kitten']->getIdKitten();
+      	$originalReMeaw = ReMeawDAO::SelectByReMeaw($meawId, $kittenId);
+      if(is_null($originalReMeaw)) {
+      	ReMeawDAO::Insert($meawId, $kittenId);
+      }else{
+      	ReMeawDAO::Update($originalReMeaw);
+      }
+    } catch (\Exception $e) {}
+   	header('location: '.BASE_URL.'ViewMeaws/Index');
 	}
 
 } ?>

@@ -26,8 +26,8 @@ class CommentController extends Controller{
 	   	  $date = date('Y-m-d H:i:s');
 	      $kittenId = $_SESSION['kitten']->getIdKitten();
 	      $myComment = new Comment($kittenId, $date, $comment);
-	      CommentDAO::InsertComment($myComment, $meawId);
-	      echo json_encode(array('meawId' => $meawId, 'comment' => $comment ,'status' => 'ok'));
+	      $myComment = CommentDAO::InsertComment($myComment, $meawId);
+	      echo json_encode(array('meawId' => $meawId, 'comment' => $myComment->getContent(), 'commentDate' => $myComment->getCommentDate() ,'status' => 'ok'));
 	    } catch (\Exception $e) {
 	      echo json_encode(array('meawId' => $meawId, 'status' => 'error', 'error' => $e->getMessage()));
 	    }
