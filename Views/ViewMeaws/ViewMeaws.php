@@ -25,11 +25,10 @@
       <hr><br />
       <div id="comments<?=$meaw->getId()?>">
         <?php if($meaw->getComments() != null) { foreach($meaw->getComments() as $comment) { ?>
-          <h7 class="card-title"><?=$comment->getKitten()->getUsername();?></h7>
+          <h7 class="card-title"><b><?=$comment->getKitten()->getUsername();?></b> comment:</h7>
           <p class="card-text">
             <?=$comment->getContent();?>
-          </br>
-          <?=$comment->getCommentDate();?>
+          </br><span style="font-size: 10px;"><?=$comment->getCommentDate();?></span>
         </p>
       <?php }} ?>
       </div>
@@ -261,8 +260,8 @@
         if (datos.status == 'ok') {
           var comments = document.getElementById('comments'+datos.meawId);
           var username = '<?=$_SESSION['kitten']->getUsername()?>'
-          comments.innerHTML += '<h7 class="card-title">'+username+'</h7>'+
-          '<p class="card-text">'+datos.comment+'</br>'+datos.commentDate+'</p>';
+          comments.innerHTML += '<h7 class="card-title"><b>'+username+'</b> comment:</h7>'+
+          '<p class="card-text">'+datos.comment+'</br><span style="font-size: 10px;">'+datos.commentDate+'</span></p>';
         }
         document.getElementById('comment' + datos.meawId).disabled = false;
         document.getElementById('comment' + datos.meawId).value = '';
