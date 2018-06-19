@@ -32,8 +32,34 @@
         </p>
       <?php }} ?>
       </div>
-      <input type="text" id="comment<?=$meaw->getId()?>" value="" placeholder="Comentario" >
-      <input type="button" id="btn<?=$meaw->getId()?>" value="Comentar" onclick="Comment(<?=$meaw->getId()?>)">
+
+      <hr><br />
+    <h6 align="right">Comments...
+      <button style="line-height: 5px; height: 25px; width: 60px" class="btn btn-info btn-lg" data-toggle="modal"
+            data-target="#myModal<?=$meaw->getId()?>" id="cmt<?=$meaw->getId()?>">Add</button>
+    </h6>
+                    <!-- Modal -->
+     <div class="modal fade" id="myModal<?=$meaw->getId()?>" role="dialog">
+     <div class="modal-dialog">
+        <div class="modal-content">
+           <div class="modal-header">
+              <button align="right" type="button" class="close" data-dismiss="modal"> &times; </button>
+              <h4 class="modal-title">Write your Comment</h4>
+            </div>
+            <div class="modal-body">
+                  <input type="hidden" value="<?=$meaw->getId()?>" name="meawId">
+                  <p>
+                    <textarea class="textarea" align="center" type="text" placeholder="my comment-nyan" id="comment<?=$meaw->getId()?>" required></textarea>
+                  </p>
+                  <p><input align="center" class="btn btn-primary" type="submit" onclick="Comment(<?=$meaw->getId()?>)" id="btn<?=$meaw->getId()?>" value="comment"></p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal"> Close</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
     </div>
     <div class="card-footer text-muted">
       <?=$meaw->getPublishDate();?>
@@ -186,9 +212,7 @@
             </form>
             </div>
           </div>
-
         </div>
-
       </div>
       <!-- /.row -->
 
@@ -244,10 +268,8 @@
 
       function Comment(meawId) {
         var comment = document.getElementById('comment' + meawId).value;
-
         document.getElementById('comment' + meawId).disabled = true;
         document.getElementById('btn' + meawId).disabled = true;
-
         Request('<?= BASE_URL ?>Comment/CommentMeaw', 'POST', 'meawId='+meawId+'&comment='+comment, function(response) {
           // Analizo la respuesta
           AddComment(response);
@@ -256,7 +278,6 @@
 
       function AddComment(response) {
         var datos = JSON.parse(response);
-        console.log(datos);
         if (datos.status == 'ok') {
           var comments = document.getElementById('comments'+datos.meawId);
           var username = '<?=$_SESSION['kitten']->getUsername()?>'
@@ -266,6 +287,7 @@
         document.getElementById('comment' + datos.meawId).disabled = false;
         document.getElementById('comment' + datos.meawId).value = '';
         document.getElementById('btn' + datos.meawId).disabled = false;
+        $('#myModal' + datos.meawId).modal('hide');
       }
     </script>
   </body>
